@@ -18,3 +18,4 @@ Do you Narwhal it All?
 * Node
 * HTML/CSS
 * Adobe XD
+* Heroku
