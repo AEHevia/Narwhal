@@ -10,10 +10,11 @@ Do you Narwhal it All?
 * Hung Nguyen - Full Stack Developer
 
 
-## Stack
+## Stack & Technologies used:
 * MongoDB 
 * TensorFlow
 * Android Studio
 * Python
 * Node
 * HTML/CSS
+* Adobe XD
