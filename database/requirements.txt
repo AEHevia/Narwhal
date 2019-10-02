@@ -1,2 +1,5 @@
 praw
 spacy
+wolframclient
+pandas
+numpy
