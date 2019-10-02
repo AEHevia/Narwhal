@@ -11,3 +11,9 @@ Do you Narwhal it All?
 
 
 ## Stack
+* MongoDB 
+* TensorFlow
+* Android Studio
+* Python
+* Node
+* HTML/CSS
