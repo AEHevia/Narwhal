@@ -3,3 +3,4 @@ spacy
 wolframclient
 pandas
 numpy
+wikipedia-api
