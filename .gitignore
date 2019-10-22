@@ -1,3 +1,21 @@
 config.json
+<<<<<<< HEAD
 node_modules/
 .env/
+=======
+node_modules
+
+/mobile.gradle
+/mobile/local.properties
+/mobile/.idea/caches
+/mobile/.idea/libraries
+/mobile/.idea/modules.xml
+/mobile/.idea/workspace.xml
+/mobile/.idea/navEditor.xml
+/mobile/.idea/assetWizardSettings.xml
+/mobile.DS_Store
+/mobile/build
+/mobile/captures
+/mobile.externalNativeBuild
+/mobile.cxx
+>>>>>>> e8aee706c642a9d62a9d60cca120f32a7085e80b
