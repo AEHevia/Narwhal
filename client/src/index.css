@@ -1,0 +1,126 @@
+body {
+  background-color: #81a69b;
+  margin: 0;
+  font-family: "Helvetica Neue",  "sans-serif";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: url('./trees.png');
+  background-repeat: repeat;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+#something-important {
+  color: #fefefe;
+  background: #1ab36d;
+  text-transform: uppercase;
+  letter-spacing: -4px;
+}
+
+.myButtonBox {
+	box-shadow: 0px 10px 14px -7px #3e7327;
+	background:linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+	background-color:#77b55a;
+	border-radius:4px;
+	border:1px solid #4b8f29;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:13px;
+	font-weight:bold;
+	padding:6px 12px;
+	text-decoration:none;
+  text-shadow:0px 1px 0px #5b8a3c;
+  margin-left: 40%;
+}
+
+.myButton {
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	background-color:#599bb3;
+	border-radius:17px;
+	border:1px solid #5a6f8f;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	padding:6px 13px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #263666;
+}
+.myButton:hover {
+	background:linear-gradient(to bottom, #415989 5%, #2e466e 100%);
+	background-color:#415989;
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.plant-row:before {
+  content:"•    ";
+}
+
+.growth-p:before {
+  content:"Growth period: ";
+  font-weight: bold;
+}
+
+.lifespan:before {
+  content:"lifespan: ";
+  font-weight: bold;
+}
+
+.perennial_bloom:before {
+  content:"Perennial Bloom: ";
+  font-weight: bold;
+}
+
+.annual_bloom:before {
+  content:"Annual Bloom: ";
+  font-weight: bold;
+}
+
+.growth_period:before {
+  content:"Growth Period: ";
+  font-weight: bold;
+}
+
+.growth_rate:before {
+  content:"Growth Rate: ";
+  font-weight: bold;
+}
+
+.growth_reqs:before {
+  content:"Growth Requirements: ";
+  font-weight: bold;
+}
+
+.water_reqs:before {
+  content:"Water Requirements: ";
+  font-weight: bold;
+}
+
+.temp_reqs:before {
+  content:"Temperature Requirements: ";
+  font-weight: bold;
+}
+
+.sun_exposure:before {
+  content:"Sun Exposure: ";
+  font-weight: bold;
+}
+
+.plant-title{
+  color: #F90B6D; 
+  font-family: 'Open Sans', sans-serif; 
+  font-size: 34px; 
+  font-weight: 300; 
+  line-height: 40px; 
+  margin: 0 0 16px;
+}
