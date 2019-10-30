@@ -1,10 +1,7 @@
 config.json
-<<<<<<< HEAD
 node_modules/
 .env/
-=======
 node_modules
-
 /mobile.gradle
 /mobile/local.properties
 /mobile/.idea/caches
@@ -18,4 +15,5 @@ node_modules
 /mobile/captures
 /mobile.externalNativeBuild
 /mobile.cxx
->>>>>>> e8aee706c642a9d62a9d60cca120f32a7085e80b
+__pycahce__
+praw_keys.json
