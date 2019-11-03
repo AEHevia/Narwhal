@@ -1,11 +1,9 @@
 body {
-  background-color: #81a69b;
+  background-color: #3a3c3d !important;
   margin: 0;
   font-family: "Helvetica Neue",  "sans-serif";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./trees.png');
-  background-repeat: repeat;
 }
 
 code {
@@ -22,20 +20,51 @@ code {
 
 .myButtonBox {
 	box-shadow: 0px 10px 14px -7px #3e7327;
-	background:linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
-	background-color:#77b55a;
+	background-color:#2a4982;
 	border-radius:4px;
-	border:1px solid #4b8f29;
+	border:1px solid #09db87;
 	display:inline-block;
 	cursor:pointer;
-	color:#ffffff;
 	font-family:Arial;
 	font-size:13px;
 	font-weight:bold;
-	padding:6px 12px;
+	padding:30px;
 	text-decoration:none;
-  text-shadow:0px 1px 0px #5b8a3c;
-  margin-left: 40%;
+    text-shadow:0px 1px 0px #5b8a3c;
+    color: white;
+}
+
+::placeholder { /* Firefox, Chrome, Opera */
+    color: white !important;
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: white !important;
+}
+
+.form-control {
+    color: white !important;
+    background-color: #2a4982 !important;
+}
+
+.btn-info {
+    background-color: black !important;
+    border-color: black !important;
+    margin-left: 5px;
+}
+
+.input-group-btn {
+    padding-top: 10px;
+}
+
+.searchBox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .myButton {
@@ -123,4 +152,10 @@ code {
   font-weight: 300; 
   line-height: 40px; 
   margin: 0 0 16px;
+}
+
+
+.navbar {
+    background: #2a4982;
+    margin-bottom: 40px;
 }

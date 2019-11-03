@@ -1,11 +1,12 @@
 import React from 'react';
-// import { render } from 'react-dom';
-import SearchParams from './SearchParams';
+import SearchParams from './components/SearchParams';
+import NavBar from './components/NavBar';
+import Navbar from "reactstrap/es/Navbar";
 
 const App = () => {
 	return (
 		<div>
-			<h1 id='something-important' align='center'>Petyl Search Engine</h1>
+			<NavBar />
 			<SearchParams />
 		</div>
 	);

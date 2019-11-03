@@ -38,22 +38,16 @@ class SearchParams extends Component {
 
 	render() {
 		return (
-			<div>
+
+			<div class="searchBox">
 				<div className='search-params myButtonBox'>
-					<label htmlFor='location'>
-						Location
-						<input
-							id='location'
-							defaultValue={this.state.location}
-							placeholder='location'
-							onChange={e => {
-								this.setState({ location: e.target.value });
-							}} // weeny tiney function
-						/>
-					</label>
-					<button className='myButton' onClick={this.onSubmit}>
-						Submit
-					</button>
+					<h6>What Animal do you want to learn about?</h6>
+					<div className='input-group'>
+						<input className='form-control width100' placeholder='Narwhal'/>
+						<span className="input-group-btn">
+								<button className="btn btn-info">Submit</button>
+						</span>
+					</div>
 				</div>
 				<div>{this.renderPlants()}</div>
 			</div>
