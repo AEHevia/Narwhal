@@ -42,12 +42,12 @@ class SearchParams extends Component {
 			<div class="searchBox">
 				<div className='search-params myButtonBox'>
 					<h6>What Animal do you want to learn about?</h6>
-					<div className='input-group'>
+					<form className='input-group'>
 						<input className='form-control width100' placeholder='Narwhal'/>
 						<span className="input-group-btn">
 								<button className="btn btn-info">Submit</button>
 						</span>
-					</div>
+					</form>
 				</div>
 				<div>{this.renderPlants()}</div>
 			</div>
