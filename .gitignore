@@ -17,3 +17,4 @@ node_modules
 /mobile.cxx
 __pycahce__
 praw_keys.json
+.vscode
