@@ -1,13 +1,14 @@
 import React from 'react';
-import SearchParams from './components/SearchParams';
-import NavBar from './components/NavBar';
-import Navbar from "reactstrap/es/Navbar";
+import NavigationBar from './components/NavBar';
+import SignIn from "./components/SignIn";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const App = () => {
 	return (
 		<div>
-			<NavBar />
-			<SearchParams />
+			<NavigationBar />
+			<SignIn />
 		</div>
 	);
 };
