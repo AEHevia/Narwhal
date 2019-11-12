@@ -1,55 +1,67 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import Plants from './Plants';
+import Animal from "./Animal";
 
 class SearchParams extends Component {
 	// First item is the string, second item is the updater function
-	state = {
-		location: '',
-		plants: []
-	};
-
-	componentDidMount() {
-		this.setState({ location: 'Georgia' });
+	constructor(props) {
+		super(props);
+		this.state = {
+			hasSearched: false,
+			name: "Test",
+			summary: "",
+			image: "",
+			lifespan: "",
+			scientificName: "",
+			weight: "",
+			facts: ""
+		};
 	}
 
-	onSubmit = () => {
-		const { location } = this.state;
-		let loc = {
-			state: location.toLowerCase()
-		};
+	handleSubmit = (event) => {
+		event.preventDefault();
 
-		axios.post('api/plants/state/', loc).then(res => this.setState({ plants: res.data }));
-	};
+		// get the data
+		axios.get('http://localhost:4000/api/animals/' +  this.state.name).then(res => this.setState({
+			name: res.data[0].name,
+			summary: res.data[0].summary,
+			image: res.data[0].image,
+			lifespan: res.data[0].lifespan,
+			scientificName: res.data[0].scientificName,
+			weight: res.data[0].weight,
+			facts: res.data[0].facts,
+			hasSearched: true}));
+	}
 
-	renderPlants = () => {
-		if (this.state.plants.length === 0) {
-			console.log('no plants to render :(');
-			return <div></div>;
-		} else {
-			console.log(this.state.plants);
-			return (
-				<div>
-					<Plants plants={this.state.plants} />
-				</div>
-			);
-		}
-	};
+	handleChange = (event) => {
+		this.setState({ name: event.target.value });
+	}
 
 	render() {
-		return (
 
-			<div class="searchBox">
-				<div className='search-params myButtonBox'>
-					<h6>What Animal do you want to learn about?</h6>
-					<form className='input-group'>
-						<input className='form-control width100' placeholder='Narwhal'/>
-						<span className="input-group-btn">
-								<button className="btn btn-info">Submit</button>
-						</span>
-					</form>
+		return (
+			<div>
+				<div className="searchBox">
+					<div className='search-params myButtonBox'>
+						<h6>What Animal do you want to learn about?</h6>
+						<form className='input-group'>
+							<input onChange={this.handleChange} value={this.state.value} className='form-control width100' placeholder='Narwhal'/>
+							<span className="input-group-btn">
+								<button onClick={this.handleSubmit} className="btn btn-info">Submit</button>
+							</span>
+						</form>
+					</div>
 				</div>
-				<div>{this.renderPlants()}</div>
+				{this.state.hasSearched ?
+					(<Animal name={this.state.name}
+									 summary={this.state.summary}
+									 image={this.state.image}
+									 lifespan={this.state.lifespan}
+									 scientificName={this.state.scientificName}
+									 weight={this.state.weight}
+									 facts={this.state.facts}
+					/> )
+					:""}
 			</div>
 		);
 	}

@@ -5,7 +5,7 @@ class NavBar extends Component {
   render() {
     return (
       <Navbar expand="md">
-        <Navbar.Brand href="#home">LOGO</Navbar.Brand>
+        <Navbar.Brand href="http://localhost:3000">LOGO</Navbar.Brand>
       </Navbar>
     )
   }

@@ -5,7 +5,9 @@ const Schema = mongoose.Schema;
 const AnimalSchema = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
+    lowercase: true,
+    trim: true
   },
   image: {
     type: String
