@@ -1,40 +1,54 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import Animal from "./Animal";
+import WarningMessage from "./WarningMessage";
 
 class SearchParams extends Component {
 	// First item is the string, second item is the updater function
 	constructor(props) {
 		super(props);
+		let animalName = "";
 		this.state = {
-			hasSearched: false,
-			name: "Test",
+			success: false,
+			name: "",
 			summary: "",
 			image: "",
 			lifespan: "",
 			scientificName: "",
 			weight: "",
-			facts: ""
+			facts: "",
+			warningMessage: ""
 		};
 	}
+
 
 	handleSubmit = (event) => {
 		event.preventDefault();
 
 		// get the data
-		axios.get('http://localhost:4000/api/animals/' +  this.state.name).then(res => this.setState({
-			name: res.data[0].name,
-			summary: res.data[0].summary,
-			image: res.data[0].image,
-			lifespan: res.data[0].lifespan,
-			scientificName: res.data[0].scientificName,
-			weight: res.data[0].weight,
-			facts: res.data[0].facts,
-			hasSearched: true}));
+		axios.get('http://localhost:4000/api/animals/' +  this.animalName).then(res => {
+			if (res.data.success) {
+				this.setState({
+					name: res.data.animal[0].name,
+					summary: res.data.animal[0].summary,
+					image: res.data.animal[0].image,
+					lifespan: res.data.animal[0].lifespan,
+					scientificName: res.data.animal[0].scientificName,
+					weight: res.data.animal[0].weight,
+					facts: res.data.animal[0].facts,
+					success: true
+				})
+			} else {
+				this.setState({
+					warningMessage: "This animal is not supported yet.",
+					success: false
+				})
+			}
+		});
 	}
 
 	handleChange = (event) => {
-		this.setState({ name: event.target.value });
+		this.animalName = event.target.value;
 	}
 
 	render() {
@@ -52,16 +66,14 @@ class SearchParams extends Component {
 						</form>
 					</div>
 				</div>
-				{this.state.hasSearched ?
-					(<Animal name={this.state.name}
-									 summary={this.state.summary}
-									 image={this.state.image}
-									 lifespan={this.state.lifespan}
-									 scientificName={this.state.scientificName}
-									 weight={this.state.weight}
-									 facts={this.state.facts}
-					/> )
-					:""}
+				{this.state.success ? <Animal name={this.state.name}
+																			summary={this.state.summary}
+																			image={this.state.image}
+																			lifespan={this.state.lifespan}
+																			scientificName={this.state.scientificName}
+																			weight={this.state.weight}
+																			facts={this.state.facts}
+				/> : <WarningMessage message={this.state.warningMessage}/>}
 			</div>
 		);
 	}

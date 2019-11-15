@@ -6,6 +6,14 @@ import Image from "react-bootstrap/Image";
 
 class Animal extends Component {
   render() {
+
+    const items = []
+
+    for (const [index, value] of this.props.facts.entries()) {
+      items.push(<li key={index}>{value}</li>)
+    }
+
+
     return (
       <Container className="container">
         <div>
@@ -43,7 +51,7 @@ class Animal extends Component {
           <Row>
               <Col>
                 <div className="details-info">
-                  {/*{this.props.facts.map((item) => <li>{{item}}</li>)}*/}
+                    {items}
                 </div>
               </Col>
           </Row>

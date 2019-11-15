@@ -8,7 +8,16 @@ router.route('/:name').get((req, res) => {
     if (err) {
       return res.json(err);
     }
-    return res.json(docs);
+    if (docs.length)
+      return res.json({
+        "success": true,
+        "animal": docs
+      });
+
+    // Handle animal is not in DB
+    return res.json({
+      "success": false
+    });
   })
 })
 

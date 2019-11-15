@@ -186,3 +186,8 @@ code {
         padding-top: 20px !important;
     }
 }
+
+.warning-message {
+    text-align: center;
+    color: red;
+}
