@@ -3,8 +3,9 @@ const router = express.Router();
 
 const User = require("../../models/Users");
 
-router.post("/api/user/login", (req, res) => {
-  const { email, password } = req.body;
+router.post("/login", (req, res) => {
+  let { email } = req.body;
+  const { password } = req.body;
 
   if (!email) {
     return res.send({
@@ -19,7 +20,7 @@ router.post("/api/user/login", (req, res) => {
     });
   }
 
-  email = email.toLoserCase();
+  email = email.toLowerCase();
   email = email.trim();
 
   Users.find(
@@ -60,8 +61,9 @@ router.post("/api/user/login", (req, res) => {
   );
 });
 
-router.post("/api/user/register", (req, res) => {
-  const { email, password, age, location } = req.body;
+router.post("/register", (req, res) => {
+  let { email } = req.body;
+  const { password, age, location } = req.body;
 
   if (!email) {
     return res.send({
@@ -99,7 +101,7 @@ router.post("/api/user/register", (req, res) => {
       if (err) {
         return res.send({
           success: false,
-          message: "Error: Server error"
+          message: "Error: Server error 1"
         });
       }
       if (prevUsers.length > 0) {
@@ -118,9 +120,10 @@ router.post("/api/user/register", (req, res) => {
 
       newUser.save((err, user) => {
         if (err) {
+          console.log(err);
           return res.send({
             success: false,
-            message: "Error: Server error"
+            message: "Error: Server error 2"
           });
         }
 
@@ -132,3 +135,5 @@ router.post("/api/user/register", (req, res) => {
     }
   );
 });
+
+module.exports = router;

@@ -1,16 +1,8 @@
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 const Schema = mongoose.Schema;
 
 const UserSchema = new Schema({
-  userID: {
-    type: String,
-    required: true
-  },
-  favoriteAnimals: [
-    {
-      type: String
-    }
-  ],
   email: {
     type: String,
     unique: true,
@@ -30,7 +22,12 @@ const UserSchema = new Schema({
     type: String,
     trim: true,
     required: true
-  }
+  },
+  favoriteAnimals: [
+    {
+      type: String
+    }
+  ]
 });
 
 UserSchema.methods.generateHash = function(password) {
