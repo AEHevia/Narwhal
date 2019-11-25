@@ -2,15 +2,16 @@
   "name": "Narwhal",
   "version": "1.0.0",
   "description": "Do you Narwhal it All?",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "dev": "parcel src/index.html",
     "format": "prettier \"src/**/*.{js, html}\" --write",
     "lint": "eslint \"src/**/*.{js, jsx}\" --quiet",
     "test": "echo \"Error: no test specified\" && exit 1",
     "api-dev": "concurrently \"npm run start\" \"npm run client\"",
-    "start": "node index.js",
-    "client": "cd client && npm start"
+    "start": "node server.js",
+    "client": "cd client && npm start",
+    "client-install": "cd client && npm install"
   },
   "repository": {
     "type": "git",
@@ -24,7 +25,6 @@
   },
   "homepage": "https://github.com/AEHevia/Narwhal#readme",
   "devDependencies": {
-    "nodemon": "^1.19.4",
     "eslint": "^6.5.1",
     "eslint-config-prettier": "^6.4.0",
     "parcel-bundler": "^1.12.4",

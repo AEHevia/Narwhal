@@ -11,4 +11,7 @@ def file_open(file_name):
 
 
 animal_list = file_open('../constants/animals.txt')
-# animal_dict = loadPickles('animal_dict')
+animal_dict = loadPickles('animal_dict')
+
+
+print()
