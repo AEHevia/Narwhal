@@ -1,9 +1,11 @@
 import React from 'react';
 import SearchParams from './components/SearchParams';
 import NavBar from './components/NavBar';
-import Navbar from "reactstrap/es/Navbar";
+import Animal from './components/Animal'
 
 const App = () => {
+
+
 	return (
 		<div>
 			<NavBar />

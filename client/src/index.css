@@ -65,6 +65,7 @@ code {
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 40px;
 }
 
 .myButton {
@@ -157,5 +158,36 @@ code {
 
 .navbar {
     background: #2a4982;
-    margin-bottom: 40px;
+    /*margin-bottom: 40px;*/
+}
+
+.container {
+    color: white;
+    padding: 20px;
+    background-color: #2a4982;
+}
+
+.animal-pic {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.details-info {
+    padding-left: 20px;
+    background-color: #818fd6;
+}
+
+.stat-detail {
+    color: black;
+}
+
+@media only screen and (max-width: 760px) {
+    .animal-pic {
+        padding-top: 20px !important;
+    }
+}
+
+.warning-message {
+    text-align: center;
+    color: red;
 }
