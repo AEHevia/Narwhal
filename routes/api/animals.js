@@ -17,18 +17,9 @@ router.get("/getall", (req, res) => {
 // @desc    Gets information about the specified animal
 // @access  Public
 router.get("/", (req, res) => {
-  Animals.find({ name: req.body.name })
+  Animals.find({ name: req.body.name.toLowerCase() })
     .then(animal => res.json(animal))
     .catch(err => console.log("Error in animals/get: " + err));
-});
-
-// @route	GET api/animals/state
-// @desc		Gets all animals located in the specified location
-// @access 	Public
-router.post("/location", (req, res) => {
-  Animals.find({ located: req.body.located })
-    .then(animals => res.json(animals))
-    .catch(err => console.log("Error in animals/get/state: " + err));
 });
 
 // @route   POST api/animals
