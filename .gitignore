@@ -19,3 +19,4 @@ __pycahce__
 praw_keys.json
 .vscode
 /config
+/package-lock.json
