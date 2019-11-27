@@ -173,7 +173,7 @@ code {
 }
 
 .details-info {
-    padding-left: 20px;
+    padding: 20px;
     background-color: #818fd6;
 }
 
@@ -190,4 +190,12 @@ code {
 .warning-message {
     text-align: center;
     color: red;
+}
+
+.favorite-button {
+    margin-bottom: 20px;
+}
+
+a.nav-link {
+    color: white !important;
 }
