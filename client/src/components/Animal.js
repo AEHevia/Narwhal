@@ -3,23 +3,31 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Image from "react-bootstrap/Image";
+import { Button } from "react-bootstrap";
 
 class Animal extends Component {
   render() {
 
-    const items = []
+    const factsList = []
+    const locatedList = []
+
+    let name = this.props.name;
+    name = name.charAt(0).toUpperCase() + name.slice(1);
 
     for (const [index, value] of this.props.facts.entries()) {
-      items.push(<li key={index}>{value}</li>)
+      factsList.push(<li key={index}>{value}</li>)
     }
-
+    for (const [index, value] of this.props.located.entries()) {
+      locatedList.push(<li key={index}>{value}</li>)
+    }
 
     return (
       <Container className="container">
-        <div>
-          <Row class="general-info">
+        <Button className="favorite-button">Favorite</Button>
+
+        <Row class="general-info">
             <Col md={8}>
-              <h1>{this.props.name}</h1>
+              <h1>{name}</h1>
               <div class="details-info">
                 {this.props.summary}
               </div>
@@ -29,33 +37,43 @@ class Animal extends Component {
             </Col>
           </Row>
           <Row>
-            <Col>
-              <h4 className="stat-detail">Lifespan: {this.props.lifespan}</h4>
+            <Col md={8}>
+              <Row>
+                <Col md={8}>
+                  <h4>Lifespan: <span className="stat-detail">{this.props.lifespan}</span></h4>
+                </Col>
+                <Col md={8}>
+                  <h4>Scientific Name: <span className="stat-detail">{this.props.scientificName}</span></h4>
+                </Col>
+                <Col md={8}>
+                  <h4>Weight: <span className="stat-detail">{this.props.weight}</span></h4>
+                </Col>
+              </Row>
+            </Col>
+            <Col md={4}>
+                <h4>Located: <span className="stat-detail">{locatedList}</span></h4>
+                <h4>Taxonomy: <span className="stat-detail">
+                  <li>
+                    Genus: {this.props.taxonomy.genus}
+                  </li>
+                  <li>
+                    <span>Species: {this.props.taxonomy.species}</span>
+                  </li>
+                </span></h4>
             </Col>
           </Row>
           <Row>
-            <Col>
-              <h4 className="stat-detail">Scientific Name: {this.props.scientificName}</h4>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h4 className="stat-detail">Weight: {this.props.weight}</h4>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <h4>Fact:</h4>
+            <Col md={8}>
+              <h4>Facts:</h4>
             </Col>
           </Row>
           <Row>
               <Col>
                 <div className="details-info">
-                    {items}
+                    {factsList}
                 </div>
               </Col>
           </Row>
-        </div>
       </Container>
     )
   }

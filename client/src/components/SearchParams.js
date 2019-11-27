@@ -14,7 +14,9 @@ class SearchParams extends Component {
       summary: "",
       image: "",
       lifespan: "",
+      located: "",
       scientificName: "",
+      taxonomy: "",
       weight: "",
       facts: "",
       warningMessage: ""
@@ -27,6 +29,7 @@ class SearchParams extends Component {
     // get the data
     axios.get("/api/animals/" + this.animalName).then(res => {
       if (res.data.success) {
+        console.log(res.data.animal[0].taxonomy)
         this.setState({
           name: res.data.animal[0].name,
           summary: res.data.animal[0].summary,
@@ -35,6 +38,8 @@ class SearchParams extends Component {
           scientificName: res.data.animal[0].scientificName,
           weight: res.data.animal[0].weight,
           facts: res.data.animal[0].facts,
+          located: res.data.animal[0].located,
+          taxonomy: res.data.animal[0].taxonomy,
           success: true
         });
       } else {
@@ -78,7 +83,9 @@ class SearchParams extends Component {
             image={this.state.image}
             lifespan={this.state.lifespan}
             scientificName={this.state.scientificName}
+            located={this.state.located}
             weight={this.state.weight}
+            taxonomy={this.state.taxonomy}
             facts={this.state.facts}
           />
         ) : (
