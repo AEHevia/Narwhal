@@ -39,10 +39,12 @@ const routes = require("./routes");
 // User APIs
 app.post("/api/user/login", routes.postUserLogin);
 app.post("/api/user/register", routes.postUserRegister);
+app.post("/api/user/favorite", routes.postUserAddFavorite);
+app.post("/api/user/unfavorite", routes.postUserRemoveFavorite);
 
 // Animal APIs
 app.get("/api/animals/getall", routes.getAnimalsGetAllAnimals);
-app.get("/api/animals/:name", routes.getAnimalsSearch);
+app.get("/api/animals/:name", routes.getAnimalsFindName);
 app.post("/api/animals/", routes.postAnimalsAdd);
 
 const port = process.env.PORT || 5000;

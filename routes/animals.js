@@ -12,7 +12,7 @@ exports.getAnimalsGetAllAnimals = async (req, res) => {
 // @route   GET api/animals
 // @desc    Gets information about the specified animal
 // @access  Public
-exports.getAnimalsSearch = async (req, res) => {
+exports.getAnimalsFindName = async (req, res) => {
   let name = req.params.name.toLowerCase();
   Animal.find({ name: name }, function(err, docs) {
     if (err) {
