@@ -1,14 +1,18 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
+const path = require("path");
+const cors = require("cors");
+const helmet = require("helmet");
 
-const animals = require("./routes/api/animals");
-const users = require("./routes/api/users");
-
+// Create the server using Express
 const app = express();
-
-// Bodyparser Middleware
 app.use(bodyParser.json());
+app.use(helmet());
+app.use(cors());
+
+// Serve static files from the React frontend app
+app.use(express.static(path.join(__dirname, "client/build")));
 
 // Loads keys based on production deploy or localhost
 var db;
@@ -29,9 +33,17 @@ mongoose
   .then(() => console.log("MongoDB Connected!"))
   .catch(err => console.log(err));
 
-// Use Routes
-app.use("/api/animals", animals);
-app.use("/api/users", users);
+// Import the routes
+const routes = require("./routes");
+
+// User APIs
+app.post("/api/user/login", routes.postUserLogin);
+app.post("/api/user/register", routes.postUserRegister);
+
+// Animal APIs
+app.get("/api/animals/getall", routes.getAnimalsGetAllAnimals);
+app.get("/api/animals/:name", routes.getAnimalsSearch);
+app.post("/api/animals/", routes.postAnimalsAdd);
 
 const port = process.env.PORT || 5000;
 

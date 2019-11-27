@@ -1,9 +1,6 @@
-const express = require("express");
-const router = express.Router();
+const Users = require("../models/Users");
 
-const User = require("../../models/Users");
-
-router.post("/login", (req, res) => {
+exports.postUserLogin = async (req, res) => {
   let { email } = req.body;
   const { password } = req.body;
 
@@ -59,9 +56,9 @@ router.post("/login", (req, res) => {
       });
     }
   );
-});
+};
 
-router.post("/register", (req, res) => {
+exports.postUserRegister = async (req, res) => {
   let { email } = req.body;
   const { password, age, location } = req.body;
 
@@ -134,6 +131,4 @@ router.post("/register", (req, res) => {
       });
     }
   );
-});
-
-module.exports = router;
+};
