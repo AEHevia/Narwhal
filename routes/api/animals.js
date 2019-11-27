@@ -16,11 +16,24 @@ router.get("/getall", (req, res) => {
 // @route   GET api/animals
 // @desc    Gets information about the specified animal
 // @access  Public
-router.get("/", (req, res) => {
-  Animals.find({ name: req.body.name.toLowerCase() })
-    .then(animal => res.json(animal))
-    .catch(err => console.log("Error in animals/get: " + err));
-});
+router.route('/:name').get((req, res) => {
+  let name = req.params.name.toLowerCase();
+  Animal.find({name: name}, function(err, docs) {
+    if (err) {
+      return res.json(err);
+    }
+    if (docs.length)
+      return res.json({
+        "success": true,
+        "animal": docs
+      });
+
+    // Handle animal is not in DB
+    return res.json({
+      "success": false
+    });
+  })
+})
 
 // @route   POST api/animals
 // @desc    Posts new animal & info to database
