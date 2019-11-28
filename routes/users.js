@@ -126,7 +126,7 @@ exports.postUserRegister = async (req, res) => {
         }
 
         return res.send({
-          sucesss: true,
+          success: true,
           message: "Register success!"
         });
       });

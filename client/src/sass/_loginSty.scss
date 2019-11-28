@@ -1,0 +1,239 @@
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  color: #cacaca;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.bg-img {
+  background-image: url("../images/background.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #000;
+  background-size: cover;
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  height: 100%;
+  width: 100%;
+  filter: blur(8px);
+  -webkit-filter: blur(8px);
+  transform: scale(1.1);
+}
+
+$blue_theme: #596e94;
+//Root Container
+.root-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.login-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.box-controller {
+  visibility: visible;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  max-width: 24em;
+  min-width: 21em;
+  height: 35px;
+  -webkit-box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
+  box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
+  margin-bottom: 30px;
+  align-items: center;
+  transition: visibility 0.5s ease-out;
+  border-radius: 10px;
+  background-color: #272729;
+}
+
+.controller {
+  flex: 1;
+  text-align: center;
+  border-radius: 10px;
+  height: 100%;
+  line-height: 2;
+  cursor: pointer;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.selected-controller-login {
+  transition: border 0.25s ease-out;
+  border-bottom: 2px solid $blue_theme;
+  border-bottom-left-radius: 10px;
+  background-color: #3e3e42;
+  transition: background-color 0.25s ease-in;
+}
+
+.selected-controller-register {
+  transition: border 0.25s ease-out;
+  border-bottom: 2px solid $blue_theme;
+  border-bottom-right-radius: 10px;
+  background-color: #3e3e42;
+  transition: background-color 0.25s ease-in;
+}
+
+.box-container {
+  transition: background 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  max-width: 24em;
+  min-width: 21em;
+  box-shadow: 0px 0px 20px 0px rgba(15, 15, 15, 0.2);
+  border-radius: 10px;
+  padding: 24px;
+  background-color: #3e3e42;
+}
+
+.logo-img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 75px;
+  width: 75px;
+  border-radius: 50px;
+  margin-bottom: 10px;
+}
+
+.inner-container {
+  transition: visibility 0.2s ease-out;
+}
+
+.inner-container.show {
+  visibility: visible;
+}
+
+//Header
+.header {
+  text-align: center;
+  padding: 5px;
+  margin-bottom: 17px;
+  /* margin-left: 35px; */
+  /* margin-right: 35px; */
+  font-family: Ozxgen, sans-serif;
+  font-size: 22px;
+  border-bottom: 2px solid $blue_theme;
+}
+
+.header-image {
+  border-radius: 200px;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+//Label
+.login-label {
+  font-family: Oxygen, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  padding-left: 5px;
+}
+
+//Input
+.login-input {
+  height: 0.5em;
+  border-radius: 3px;
+  border: 1px solid $blue_theme;
+  transition: border 0.4s ease-out;
+  padding: 13px;
+  font-family: Oxygen, sans-serif;
+  font-size: 19px;
+  color: #cacaca;
+  background: rgba(15, 15, 15, 0.01);
+}
+
+.login-input:hover {
+  border: 2px solid $blue_theme;
+}
+
+.login-input:focus {
+  border: 2px solid #596e94;
+  box-shadow: 0px 0px 20px rgba(15, 15, 15, 0.2);
+}
+
+//Input Placeholder
+.login-input::placeholder {
+  font-family: Oxygen, sans-serif;
+  font-size: 16px; //color: rgba(46, 213, 116, 0.839);
+  color: #cacaca;
+}
+
+.login-btn {
+  padding: 2px 30px;
+  /* background-color: #417cef; */
+  border: 0;
+  font-size: 18px;
+  border-radius: 3px;
+  font-family: Oxygen, sans-serif;
+  background-color: #596e94;
+  margin-top: 20px;
+  border: 2px solid #596e94;
+  transition: background-color 0.3s ease-out;
+  cursor: pointer;
+  color: #cacaca;
+}
+
+.login-btn:hover {
+  background-color: #728dbe;
+  border: 2px solid #728dbe;
+}
+
+.login-btn:focus {
+  background-color: #3f4e6b;
+  border: 2px solid #3f4e6b;
+}
+
+.danger-error {
+  color: #be6b62;
+  font-size: 16px;
+}
+
+//Password
+.password-state {
+  display: flex;
+  flex-direction: row;
+  margin-top: 20px;
+}
+
+.pwd {
+  height: 6px;
+  flex: 1;
+  visibility: hidden;
+}
+
+.pwd-weak {
+  background-color: #be6b62;
+  border-top-left-radius: 3px;
+  border-bottom-left-radius: 3px;
+}
+
+.pwd-medium {
+  background-color: #5c90b3;
+}
+
+.pwd-strong {
+  background-color: #6cad87;
+  border-top-right-radius: 3px;
+  border-bottom-right-radius: 3px;
+}
+
+.show {
+  visibility: visible;
+}

@@ -29,7 +29,7 @@ class SearchParams extends Component {
     // get the data
     axios.get("/api/animals/" + this.animalName).then(res => {
       if (res.data.success) {
-        console.log(res.data.animal[0].taxonomy)
+        console.log(res.data.animal[0].taxonomy);
         this.setState({
           name: res.data.animal[0].name,
           summary: res.data.animal[0].summary,
@@ -59,7 +59,7 @@ class SearchParams extends Component {
     return (
       <div>
         <div className="searchBox">
-          <div className="search-params myButtonBox">
+          <div className="search-params myButtonBox !important">
             <h6>What Animal do you want to learn about?</h6>
             <form className="input-group">
               <input
