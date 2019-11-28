@@ -88,7 +88,6 @@ class _DestinationViewState extends State<DestinationView> {
         ),
       );
     }
-    
   }
 
   @override
@@ -209,25 +208,46 @@ class DisplayPictureScreen extends StatelessWidget {
 
   const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
 
-  Future<List<User>> _getUsers() async {
+  Future<List<String>> _getUsers() async {
 
     var data = await http.get("https://jsonplaceholder.typicode.com/users");
+    var data2 = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/elephant");
 
     var jsonData = json.decode(data.body);
 
-    List<User> users = [];
+    Map<String, dynamic> animal = jsonDecode(data2.body);
 
-    for(var u in jsonData){
+    // print(animal);
+    // print(animal['success']);
+    // print(animal['animal']);
 
-      User user = User(u["name"], u["email"]);
+    List<dynamic> animalInfo = animal['animal'];
+    // print(animalInfo);
+    print(animalInfo[0]);
+    print(animalInfo[0]['name']);
+    print(animalInfo[0]['weight']);
+    print(animalInfo[0]['facts']);
 
-      users.add(user);
+    var factList = animalInfo[0]['facts'];
 
+    for (var fact in animalInfo[0]['facts']) {
+      print(fact);
     }
 
-    print(users.length);
+    List<String> animalFacts = [];
 
-    return users;
+    for (var fact in factList) {
+      animalFacts.add(fact);
+    }
+
+    // List<User> users = [];
+    // for (var u in jsonData) {
+    //  User user = User(u["name"], u["email"]);
+    //  users.add(user);
+    //}
+
+    // return users;
+    return animalFacts;
   }
 
   @override
@@ -260,15 +280,15 @@ class DisplayPictureScreen extends StatelessWidget {
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
-                  title: Text(snapshot.data[index].name),
-                  subtitle: Text(snapshot.data[index].email),
+                  title: Text(snapshot.data[index]),
+                  // subtitle: Text(snapshot.data[index]),
                   trailing: Icon(
-                    _saved.contains(snapshot.data[index].name) ? Icons.favorite : Icons.favorite_border,
-                    color: _saved.contains(snapshot.data[index].name) ? Colors.red : null,
+                    _saved.contains(snapshot.data[index]) ? Icons.favorite : Icons.favorite_border,
+                    color: _saved.contains(snapshot.data[index]) ? Colors.red : null,
                   ),
                   onTap: () {
                     // TODO: ADD CHECKING FOR FAVORITE FACTS
-                    if (_saved.contains(snapshot.data[index].name)) {
+                    if (_saved.contains(snapshot.data[index])) {
                       // _saved.remove(snapshot.data[index].name);
                     }
                     else {
@@ -417,7 +437,7 @@ class _SearchPageState extends State<SearchPage> {
     if (_searchText.isNotEmpty) {
       List tempList = new List();
       for (int i = 0; i < filteredNames.length; i++) {
-        if (filteredNames[i]['name'].toLowerCase().contains(_searchText.toLowerCase())) {
+        if (filteredNames[i].toLowerCase().contains(_searchText.toLowerCase())) {
           tempList.add(filteredNames[i]);
         }
       }
@@ -427,8 +447,8 @@ class _SearchPageState extends State<SearchPage> {
       itemCount: names == null ? 0 : filteredNames.length,
       itemBuilder: (BuildContext context, int index) {
         return new ListTile(
-          title: Text(filteredNames[index]['name']),
-          onTap: () => print(filteredNames[index]['name']),
+          title: Text(filteredNames[index]),
+          onTap: () => print(filteredNames[index]),
         );
       },
     );
@@ -454,11 +474,22 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
+  // /api/animals/getall
+
   void _getNames() async {
-    final response = await dio.get('https://swapi.co/api/people');
+    var data = await http.get('https://narwhal-poosd.herokuapp.com/api/animals/getall');
+    List<dynamic> allAnimals = jsonDecode(data.body);
+
+    print(allAnimals);
+
     List tempList = new List();
-    for (int i = 0; i < response.data['results'].length; i++) {
-      tempList.add(response.data['results'][i]);
+    for (int i = 0; i < allAnimals.length; i++) {
+      print(allAnimals[i]);
+      print(allAnimals[i]['name']);
+      // i love u 
+      // i love u 2 <3
+      if (allAnimals[i]['name'] != null)
+        tempList.add(allAnimals[i]['name']);
     }
     setState(() {
       names = tempList;
@@ -466,8 +497,6 @@ class _SearchPageState extends State<SearchPage> {
       filteredNames = names;
     });
   }
-
-
 }
 
 Future<void> main() async {
