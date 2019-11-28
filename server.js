@@ -45,6 +45,11 @@ app.get("/api/animals/getall", routes.getAnimalsGetAllAnimals);
 app.get("/api/animals/:name", routes.getAnimalsSearch);
 app.post("/api/animals/", routes.postAnimalsAdd);
 
+// Anything that doesn't match the above, send back the index.html file
+app.get('*', (req, res) => {
+	res.sendFile(path.join(__dirname + '/client/build/index.html'))
+})
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Connected on port ${port}`));
