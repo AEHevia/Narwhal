@@ -1,7 +1,12 @@
-const { postUserLogin, postUserRegister } = require("./users");
+const {
+  postUserLogin,
+  postUserRegister,
+  postUserAddFavorite,
+  postUserRemoveFavorite
+} = require("./users");
 const {
   getAnimalsGetAllAnimals,
-  getAnimalsSearch,
+  getAnimalsFindName,
   postAnimalsAdd
 } = require("./animals");
 
@@ -12,13 +17,19 @@ exports.postUserLogin = async (req, res) => {
 exports.postUserRegister = async (req, res) => {
   await postUserRegister(req, res);
 };
+exports.postUserAddFavorite = async (req, res) => {
+  await postUserAddFavorite(req, res);
+};
+exports.postUserRemoveFavorite = async (req, res) => {
+  await postUserRemoveFavorite(req, res);
+};
 
 // Animal routes
 exports.getAnimalsGetAllAnimals = async (req, res) => {
   await getAnimalsGetAllAnimals(req, res);
 };
-exports.getAnimalsSearch = async (req, res) => {
-  await getAnimalsSearch(req, res);
+exports.getAnimalsFindName = async (req, res) => {
+  await getAnimalsFindName(req, res);
 };
 exports.postAnimalsAdd = async (req, res) => {
   await postAnimalsAdd(req, res);

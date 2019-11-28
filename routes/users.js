@@ -1,4 +1,5 @@
 const Users = require("../models/Users");
+const Animals = require("../models/Animals");
 
 exports.postUserLogin = async (req, res) => {
   let { email } = req.body;
@@ -125,10 +126,57 @@ exports.postUserRegister = async (req, res) => {
         }
 
         return res.send({
-          sucesss: true,
+          success: true,
           message: "Register success!"
         });
       });
     }
   );
+};
+
+/* 
+Input:
+  {
+    userID: "",
+    animalID: ""
+  }
+*/
+
+exports.postUserAddFavorite = async (req, res) => {
+  const { userID, animalID } = req.body;
+
+  Users.findById(userID, function(err, user) {
+    if (!user) res.status(404).json(err);
+    else {
+      Animals.findById(animalID, function(err, animal) {
+        if (!animal) res.status(404).json(err);
+        else {
+          user.favoriteAnimals.push(animal.name);
+        }
+
+        user.save().then(user => res.json(user));
+      });
+    }
+  });
+};
+
+exports.postUserRemoveFavorite = async (req, res) => {
+  const { userID, animalID } = req.body;
+
+  Users.findById(userID, function(err, user) {
+    if (!user) res.status(404).json(err);
+    else {
+      Animals.findById(animalID, function(err, animal) {
+        if (!animal) res.status(404).json(err);
+        else {
+          for (let i = 0; i < user.favoriteAnimals.length; i++) {
+            if (user.favoriteAnimals[i] == animal.name)
+              user.favoriteAnimals.splice(i--, 1);
+          }
+        }
+
+        user.save().then(user => res.json(user));
+      });
+    }
+  });
 };
