@@ -448,7 +448,11 @@ class _SearchPageState extends State<SearchPage> {
       itemBuilder: (BuildContext context, int index) {
         return new ListTile(
           title: Text(filteredNames[index]),
-          onTap: () => print(filteredNames[index]),
+          // onTap: () => print(filteredNames[index]),
+          onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SecondRoute(animalName: filteredNames[index])),
+            )
         );
       },
     );
@@ -480,14 +484,8 @@ class _SearchPageState extends State<SearchPage> {
     var data = await http.get('https://narwhal-poosd.herokuapp.com/api/animals/getall');
     List<dynamic> allAnimals = jsonDecode(data.body);
 
-    print(allAnimals);
-
     List tempList = new List();
     for (int i = 0; i < allAnimals.length; i++) {
-      print(allAnimals[i]);
-      print(allAnimals[i]['name']);
-      // i love u 
-      // i love u 2 <3
       if (allAnimals[i]['name'] != null)
         tempList.add(allAnimals[i]['name']);
     }
@@ -496,6 +494,110 @@ class _SearchPageState extends State<SearchPage> {
       names.shuffle();
       filteredNames = names;
     });
+  }
+}
+
+class SecondRoute extends StatelessWidget {
+  final animalName;
+  var animalImage;
+
+  SecondRoute({ Key key, this.animalName, }): super(key: key);
+
+  Future<List<String>> _getUsers() async {
+    var data = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + this.animalName);
+    Map<String, dynamic> animal = jsonDecode(data.body);
+
+    List<dynamic> animalInfo = animal['animal'];
+    
+    print('This animal name you clicked is: ' + this.animalName);
+
+    List<String> animalFacts = [];
+
+    var summary = animalInfo[0]['summary'];
+    animalFacts.add('Summary: ' + summary);
+
+    var lifespan = animalInfo[0]['lifespan'];
+    animalFacts.add('Lifespan: ' + lifespan);
+    
+    var weight = animalInfo[0]['weight'];
+    animalFacts.add('Weight: ' + weight);
+
+    var factList = animalInfo[0]['facts'];
+    for (var fact in factList) {
+      animalFacts.add('Fun Fact: ' + fact);
+    }
+
+    return animalFacts;
+  }
+
+  Future<String> _getAnimalImage() async {
+  var data = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + this.animalName);
+      Map<String, dynamic> animal = jsonDecode(data.body);
+      List<dynamic> animalInfo = animal['animal'];
+
+      return animalInfo[0]['image']; 
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget titleSection = new Container(
+      child: FutureBuilder(
+        future: _getUsers(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Container(
+              child: Center(
+                child: Text("Loading...")
+              )
+            );
+          } else {
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(snapshot.data[index]),
+                );
+              },
+            );
+          }
+        },
+      ),
+    );
+
+    Widget animalImage = new Container(
+      child: FutureBuilder(
+        future: _getAnimalImage(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Image.network(
+              'https://images.unsplash.com/photo-151652838761' +
+              '8-afa90b13e000?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQi' +
+              'OjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+            );
+          } else {
+            return Image.network(
+              snapshot.data,
+            );
+          }
+        }
+      )
+    );
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(this.animalName),
+      ),
+      body: new Scrollbar(
+        child: ListView(
+          children: <Widget>[
+            animalImage,
+            titleSection,
+          ],
+        )
+      )
+    );
   }
 }
 
