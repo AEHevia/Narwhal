@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import { Navbar } from "react-bootstrap";
-import Nav from "react-bootstrap/Nav";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 class NavBar extends Component {
   render() {
@@ -18,7 +16,17 @@ class NavBar extends Component {
               {this.props.isLoggedIn && (
                 <Nav.Link href="#link">Favorites</Nav.Link>
               )}
-              <Nav.Link href="#link">Logout</Nav.Link>
+              {this.props.isLoggedIn && (
+                <Nav.Link
+                  variant="outline-danger"
+                  onClick={this.props.handleLogout}
+                >
+                  Logout
+                </Nav.Link>
+              )}
+              {!this.props.isLoggedIn && (
+                <Nav.Link variant="outline-success">Login</Nav.Link>
+              )}
             </Nav>
           </Navbar.Collapse>
         </Navbar>
