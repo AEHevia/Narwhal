@@ -18,3 +18,5 @@ node_modules
 __pycahce__
 praw_keys.json
 .vscode
+
+config/

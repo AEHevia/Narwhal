@@ -17,6 +17,12 @@ class Destination {
   final MaterialColor color;
 }
 
+class AnimalInfo {
+  const AnimalInfo(this.type, this.info);
+  final String type;
+  final String info;
+}
+
 const List<Destination> allDestinations = <Destination>[
   Destination(0, 'Search', Icons.search, Colors.teal),
   Destination(1, 'Home', Icons.home, Colors.cyan),
@@ -49,8 +55,9 @@ class User {
 
 class DestinationView extends StatefulWidget {
   final CameraDescription camera;
+  final String userID;
 
-  const DestinationView({ Key key, this.destination, Key cameraKey, this.camera}) : super(key: key);
+  const DestinationView({ Key key, this.destination, Key cameraKey, this.camera, Key userIDKey, this.userID}) : super(key: key);
 
   final Destination destination;
 
@@ -65,7 +72,7 @@ class _DestinationViewState extends State<DestinationView> {
   void initState() {
     super.initState();
     _textController = TextEditingController(
-      text: 'sample text: ${widget.destination.title}',
+      text: 'sample text: ${widget.userID}',
     );
   }
 
@@ -326,10 +333,10 @@ class DisplayPictureScreen extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   final CameraDescription camera;
+  final String userID;
 
   const HomePage({
-    Key key,
-    this.camera,
+    Key key, this.camera, Key userIDKey, this.userID
   }) : super(key: key);
 
   @override
@@ -341,6 +348,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin<HomeP
 
   @override
   Widget build(BuildContext context) {
+
+    print(widget.userID);
+
     return Scaffold(
       appBar: new AppBar(
         centerTitle: true,
@@ -351,7 +361,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin<HomeP
         child: IndexedStack(
           index: _currentIndex,
           children: allDestinations.map<Widget>((Destination destination) {
-            return DestinationView(destination: destination, camera: widget.camera);
+            return DestinationView(destination: destination, camera: widget.camera, userID: widget.userID);
           }).toList(),
         ),
       ),
@@ -501,7 +511,7 @@ class SecondRoute extends StatelessWidget {
   final animalName;
   var animalImage;
 
-  SecondRoute({ Key key, this.animalName, }): super(key: key);
+  SecondRoute({ Key key, this.animalName }): super(key: key);
 
   Future<List<String>> _getUsers() async {
     var data = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + this.animalName);
@@ -513,6 +523,7 @@ class SecondRoute extends StatelessWidget {
 
     List<String> animalFacts = [];
 
+    /*
     var summary = animalInfo[0]['summary'];
     animalFacts.add('Summary: ' + summary);
 
@@ -521,10 +532,11 @@ class SecondRoute extends StatelessWidget {
     
     var weight = animalInfo[0]['weight'];
     animalFacts.add('Weight: ' + weight);
+    */
 
     var factList = animalInfo[0]['facts'];
     for (var fact in factList) {
-      animalFacts.add('Fun Fact: ' + fact);
+      animalFacts.add(fact);
     }
 
     return animalFacts;
@@ -538,9 +550,53 @@ class SecondRoute extends StatelessWidget {
       return animalInfo[0]['image']; 
   }
 
+  Future<List<AnimalInfo>> _getAnimalInfo() async {
+    var data = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + this.animalName);
+    Map<String, dynamic> animal = jsonDecode(data.body);
+    Map<String, dynamic> animalInfo = animal['animal'][0];
+    List<AnimalInfo> list = [];
+
+    for (var entry in animalInfo.entries) {
+      if (entry.key == 'summary' || entry.key == 'weight' || entry.key == 'lifespan') {
+        list.add(new AnimalInfo(entry.key, entry.value));
+      }
+    }
+
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Widget titleSection = new Container(
+    Widget animalInfo = new Container(
+      child: FutureBuilder(
+        future: _getAnimalInfo(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Container(
+              child: Center(
+                child: Text("Loading...")
+              )
+            );
+          } else {
+            var list = ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(snapshot.data[index].type),
+                  subtitle: Text(snapshot.data[index].info),
+                );
+              },
+            );
+
+            return list;
+          }
+        },
+      ),
+    );
+
+    Widget animalFacts = new Container(
       child: FutureBuilder(
         future: _getUsers(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -593,11 +649,290 @@ class SecondRoute extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             animalImage,
-            titleSection,
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+              'Animal Information', 
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                ),
+              ),
+            ),
+            animalInfo,
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+              'Fun Facts', 
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                ),
+              ),
+            ),
+            animalFacts,
           ],
         )
       )
     );
+  }
+}
+
+class LoginPage extends StatefulWidget {
+  final CameraDescription camera;
+
+  const LoginPage({
+    Key key,
+    this.camera,
+  }) : super(key: key);
+  @override
+
+  State<StatefulWidget> createState() => new _LoginPageState();
+}
+
+// Used for controlling whether the user is loggin or creating an account
+enum FormType {
+  login,
+  register
+}
+
+class _LoginPageState extends State<LoginPage> {
+
+  final TextEditingController _emailFilter = new TextEditingController();
+  final TextEditingController _passwordFilter = new TextEditingController();
+  final TextEditingController _ageFilter = new TextEditingController();
+  final TextEditingController _locationFilter = new TextEditingController();
+  String _email = "";
+  String _password = "";
+  String _age = "";
+  String _location = "";
+  FormType _form = FormType.login; // our default setting is to login, and we should switch to creating an account when the user chooses to
+
+  _LoginPageState() {
+    _emailFilter.addListener(_emailListen);
+    _passwordFilter.addListener(_passwordListen);
+    _ageFilter.addListener(_ageListen);
+    _locationFilter.addListener(_locationListen);
+  }
+
+  void _emailListen() {
+    if (_emailFilter.text.isEmpty) {
+      _email = "";
+    } else {
+      _email = _emailFilter.text;
+    }
+  }
+
+  void _passwordListen() {
+    if (_passwordFilter.text.isEmpty) {
+      _password = "";
+    } else {
+      _password = _passwordFilter.text;
+    }
+  }
+
+  void _ageListen() {
+    if (_ageFilter.text.isEmpty) {
+      _age = "";
+    } else {
+      _age = _ageFilter.text;
+    }
+  }
+
+  void _locationListen() {
+    if (_locationFilter.text.isEmpty) {
+      _location = "";
+    } else {
+      _location = _locationFilter.text;
+    }
+  }
+
+  // Swap in between our two forms, registering and logging in
+  void _formChange () async {
+    setState(() {
+      if (_form == FormType.register) {
+        _form = FormType.login;
+      } else {
+        _form = FormType.register;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Scaffold(
+      appBar: _buildBar(context),
+      body: new Container(
+        padding: EdgeInsets.all(16.0),
+        child: new Column(
+          children: <Widget>[
+            _buildTextFields(),
+            _buildButtons(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBar(BuildContext context) {
+    return new AppBar(
+      title: new Text('Narwhal'),
+      centerTitle: true,
+    );
+  }
+
+  Widget _buildTextFields() {
+    if (_form == FormType.login) {
+      return new Container(
+        child: new Column(
+          children: <Widget>[
+            new Container(
+              child: new TextField(
+                controller: _emailFilter,
+                decoration: new InputDecoration(
+                  labelText: 'Email'
+                ),
+              ),
+            ),
+            new Container(
+              child: new TextField(
+                controller: _passwordFilter,
+                decoration: new InputDecoration(
+                  labelText: 'Password'
+                ),
+                obscureText: true,
+              ),
+            )
+          ],
+        ),
+      );
+    } else {
+       return new Container(
+        child: new Column(
+          children: <Widget>[
+            new Container(
+              child: new TextField(
+                controller: _emailFilter,
+                decoration: new InputDecoration(
+                  labelText: 'Email'
+                ),
+              ),
+            ),
+            new Container(
+              child: new TextField(
+                controller: _passwordFilter,
+                decoration: new InputDecoration(
+                  labelText: 'Password'
+                ),
+                obscureText: true,
+              ),
+            ),
+            new Container(
+              child: new TextField(
+                controller: _ageFilter,
+                decoration: new InputDecoration(
+                  labelText: 'Age'
+                ),
+              ),
+            ),
+            new Container(
+              child: new TextField(
+                controller: _locationFilter,
+                decoration: new InputDecoration(
+                  labelText: 'Location'
+                ),
+              ),
+            )
+          ],
+        ),
+      );     
+    }
+  }
+
+  Widget _buildButtons() {
+    if (_form == FormType.login) {
+      return new Container(
+        child: new Column(
+          children: <Widget>[
+            new RaisedButton(
+              child: new Text('Login'),
+              onPressed: _loginPressed,
+            ),
+            new FlatButton(
+              child: new Text('Dont have an account? Tap here to register.'),
+              onPressed: _formChange,
+            ),
+          ],
+        ),
+      );
+    } else {
+      return new Container(
+        child: new Column(
+          children: <Widget>[
+            new RaisedButton(
+              child: new Text('Create an Account'),
+              onPressed: _createAccountPressed,
+            ),
+            new FlatButton(
+              child: new Text('Have an account? Click here to login.'),
+              onPressed: _formChange,
+            )
+          ],
+        ),
+      );
+    }
+  }
+  // These functions can self contain any user auth logic required, they all have access to _email and _password
+
+  void _loginPressed () async {
+    print('The user wants to login with $_email and $_password');
+
+    String url = 'https://narwhal-poosd.herokuapp.com/api/user/login';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = '{"email": "$_email", "password": "$_password"}';
+    var data = await http.post(url, headers: headers, body: json);
+
+    print(data.body);
+
+    Map<String, dynamic> response = jsonDecode(data.body);
+
+    if (response['success'] == true) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(
+            camera: widget.camera, userID: response['userID']
+          )
+        )
+      );
+    }
+  }
+
+  void _createAccountPressed () async {
+    print('The user wants to create an accoutn with $_email and $_password');
+
+    String url = 'https://narwhal-poosd.herokuapp.com/api/user/register';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = '{"email": "$_email", "password": "$_password", "age": "$_age", "location": "$_location"}';
+    var data = await http.post(url, headers: headers, body: json);
+
+    print(data.body);
+
+    Map<String, dynamic> response = jsonDecode(data.body);
+
+    if (response['success'] == true) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomePage(
+            camera: widget.camera,
+            userID: response['userID']
+          )
+        )
+      );      
+    }
   }
 }
 
@@ -619,8 +954,8 @@ Future<void> main() async {
         camera: firstCamera,
       ),
       */
-      home: HomePage(camera: firstCamera),
-      // home: new ExamplePage(),
+      // home: HomePage(camera: firstCamera),
+      home: new LoginPage(camera: firstCamera),
     ),
   );
 }
