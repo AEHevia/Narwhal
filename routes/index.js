@@ -7,7 +7,8 @@ const {
 const {
   getAnimalsGetAllAnimals,
   getAnimalsFindName,
-  postAnimalsAdd
+  postAnimalsAdd,
+  getRandomAnimal
 } = require("./animals");
 
 // User routes
@@ -33,4 +34,7 @@ exports.getAnimalsFindName = async (req, res) => {
 };
 exports.postAnimalsAdd = async (req, res) => {
   await postAnimalsAdd(req, res);
+};
+exports.getRandomAnimal = async (req, res) => {
+  await getRandomAnimal(req, res);
 };
