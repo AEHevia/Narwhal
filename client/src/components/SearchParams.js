@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import NavBar from "./NavBar";
 import Animal from "./Animal";
 import WarningMessage from "./WarningMessage";
 
@@ -55,9 +56,31 @@ class SearchParams extends Component {
     this.animalName = event.target.value;
   };
 
+  doGetRandom = () => {
+    axios.get("/api/animals/getRandom").then(res => {
+      this.setState({
+        name: res.data.name,
+        summary: res.data.summary,
+        image: res.data.image,
+        lifespan: res.data.lifespan,
+        scientificName: res.data.scientificName,
+        weight: res.data.weight,
+        facts: res.data.facts,
+        located: res.data.located,
+        taxonomy: res.data.taxonomy,
+        success: true
+      });
+    });
+  };
+
   render() {
     return (
       <div>
+        <NavBar
+          isLoggedIn={true}
+          handleLogout={this.props.handleLogout}
+          handleRandom={this.doGetRandom}
+        />
         <div className="searchBox">
           <div className="search-params myButtonBox !important">
             <h6>What Animal do you want to learn about?</h6>

@@ -11,18 +11,13 @@ class NavBar extends Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
               {this.props.isLoggedIn && (
-                <Nav.Link href="#home">Random</Nav.Link>
+                <Nav.Link onClick={this.props.handleRandom}>Random</Nav.Link>
               )}
               {this.props.isLoggedIn && (
                 <Nav.Link href="#link">Favorites</Nav.Link>
               )}
               {this.props.isLoggedIn && (
-                <Nav.Link
-                  variant="outline-danger"
-                  onClick={this.props.handleLogout}
-                >
-                  Logout
-                </Nav.Link>
+                <Nav.Link onClick={this.props.handleLogout}>Logout</Nav.Link>
               )}
               {!this.props.isLoggedIn && (
                 <Nav.Link variant="outline-success">Login</Nav.Link>

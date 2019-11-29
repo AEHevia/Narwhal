@@ -44,6 +44,7 @@ app.post("/api/user/unfavorite", routes.postUserRemoveFavorite);
 
 // Animal APIs
 app.get("/api/animals/getall", routes.getAnimalsGetAllAnimals);
+app.get("/api/animals/getRandom", routes.getRandomAnimal);
 app.get("/api/animals/:name", routes.getAnimalsFindName);
 app.post("/api/animals/", routes.postAnimalsAdd);
 

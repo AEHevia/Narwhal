@@ -48,4 +48,12 @@ const AnimalSchema = new Schema({
   }
 });
 
+AnimalSchema.statics.random = function(cb) {
+  this.count(function(err, count) {
+    if (err) return cb(err);
+    const rand = Math.floor(Math.random() * count);
+    this.findOne().skip(rand).exec(cb);
+  }.bind(this));
+};
+
 module.exports = Animals = mongoose.model("animals", AnimalSchema);
