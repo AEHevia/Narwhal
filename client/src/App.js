@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import SearchParams from "./components/SearchParams";
 import NavBar from "./components/NavBar";
+import SearchParams from "./components/SearchParams";
 import LoginManager from "./components/LoginManager";
-// import "./sass/index.scss";
 
 class App extends Component {
   state = {
@@ -19,18 +18,32 @@ class App extends Component {
     }));
   };
 
+  doLogOut = () => {
+    this.setState({
+      isLoggedIn: false,
+      userID: "",
+      sessionID: ""
+    });
+  };
+
   render() {
     if (this.state.isLoggedIn) {
       return (
         <div>
-          <NavBar isLoggedIn={this.state.isLoggedIn} />
+          <NavBar
+            isLoggedIn={this.state.isLoggedIn}
+            handleLogout={this.doLogOut}
+          />
           <SearchParams />
         </div>
       );
     } else {
       return (
         <div>
-          <NavBar isLoggedIn={this.state.isLoggedIn} />
+          <NavBar
+            isLoggedIn={this.state.isLoggedIn}
+            handleLogout={this.doLogOut}
+          />
           <LoginManager handleLogin={this.doLogIn} />
         </div>
       );
