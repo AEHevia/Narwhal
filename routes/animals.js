@@ -1,5 +1,5 @@
 const Animal = require("../models/Animals");
-const random = require('mongoose-simple-random');
+const random = require("mongoose-simple-random");
 
 // @route   GET api/animals/getall
 // @desc    Gets all animal information
@@ -59,6 +59,5 @@ exports.getRandomAnimal = async (req, res) => {
     } else {
       console.log("Error in animals/getRandom: " + err);
     }
-
   });
 };

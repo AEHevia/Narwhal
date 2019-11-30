@@ -29,7 +29,10 @@ class App extends Component {
     if (this.state.isLoggedIn) {
       return (
         <div>
-          <SearchParams handleLogout={this.doLogOut} />
+          <SearchParams
+            handleLogout={this.doLogOut}
+            userID={this.state.userID}
+          />
         </div>
       );
     } else {

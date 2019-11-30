@@ -41,6 +41,7 @@ app.post("/api/user/login", routes.postUserLogin);
 app.post("/api/user/register", routes.postUserRegister);
 app.post("/api/user/favorite", routes.postUserAddFavorite);
 app.post("/api/user/unfavorite", routes.postUserRemoveFavorite);
+app.post("/api/user/listfavorites", routes.postUserListFavorites);
 
 // Animal APIs
 app.get("/api/animals/getall", routes.getAnimalsGetAllAnimals);
@@ -49,9 +50,9 @@ app.get("/api/animals/:name", routes.getAnimalsFindName);
 app.post("/api/animals/", routes.postAnimalsAdd);
 
 // Anything that doesn't match the above, send back the index.html file
-app.get('*', (req, res) => {
-	res.sendFile(path.join(__dirname + '/client/build/index.html'))
-})
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
 
 const port = process.env.PORT || 5000;
 
