@@ -2,7 +2,8 @@ const {
   postUserLogin,
   postUserRegister,
   postUserAddFavorite,
-  postUserRemoveFavorite
+  postUserRemoveFavorite,
+  postUserListFavorites
 } = require("./users");
 const {
   getAnimalsGetAllAnimals,
@@ -23,6 +24,9 @@ exports.postUserAddFavorite = async (req, res) => {
 };
 exports.postUserRemoveFavorite = async (req, res) => {
   await postUserRemoveFavorite(req, res);
+};
+exports.postUserListFavorites = async (req, res) => {
+  await postUserListFavorites(req, res);
 };
 
 // Animal routes

@@ -27,7 +27,11 @@ class LoginManager extends Component {
   render() {
     return (
       <React.Fragment>
-        <NavBar isLoggedIn={false} handleLogout={this.props.handleLogout} />
+        <NavBar
+          isLoggedIn={false}
+          handleLogout={this.props.handleLogout}
+          favorites={[]}
+        />
         <div className="root-container">
           <div className="login-container">
             <div className="box-controller">

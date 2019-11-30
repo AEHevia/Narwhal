@@ -20,8 +20,19 @@ class SearchParams extends Component {
       taxonomy: "",
       weight: "",
       facts: "",
-      warningMessage: ""
+      warningMessage: "",
+      favorites: []
     };
+  }
+
+  componentDidMount() {
+    axios
+      .post("/api/user/listfavorites", { userID: this.props.userID })
+      .then(res => {
+        this.setState({
+          favorites: res.data
+        });
+      });
   }
 
   handleSubmit = event => {
@@ -73,6 +84,58 @@ class SearchParams extends Component {
     });
   };
 
+  clickFavorite = animalName => {
+    // alert(animalName);
+    axios.get("/api/animals/" + animalName).then(res => {
+      if (res.data.success) {
+        console.log(res.data.animal[0].taxonomy);
+        this.setState({
+          name: res.data.animal[0].name,
+          summary: res.data.animal[0].summary,
+          image: res.data.animal[0].image,
+          lifespan: res.data.animal[0].lifespan,
+          scientificName: res.data.animal[0].scientificName,
+          weight: res.data.animal[0].weight,
+          facts: res.data.animal[0].facts,
+          located: res.data.animal[0].located,
+          taxonomy: res.data.animal[0].taxonomy,
+          success: true
+        });
+      } else {
+        this.setState({
+          warningMessage: "This animal is not supported yet.",
+          success: false
+        });
+      }
+    });
+  };
+
+  doFavorite = animalName => {
+    let favInfo = {
+      userID: this.props.userID,
+      animalName: animalName
+    };
+
+    axios.post("/api/user/favorite", favInfo).then(res => {
+      this.setState({
+        favorites: res.data.favorites
+      });
+    });
+  };
+
+  doUnfavorite = animalName => {
+    let favInfo = {
+      userID: this.props.userID,
+      animalName: animalName
+    };
+
+    axios.post("/api/user/unfavorite", favInfo).then(res => {
+      this.setState({
+        favorites: res.data.favorites
+      });
+    });
+  };
+
   render() {
     return (
       <div>
@@ -80,6 +143,8 @@ class SearchParams extends Component {
           isLoggedIn={true}
           handleLogout={this.props.handleLogout}
           handleRandom={this.doGetRandom}
+          favorites={this.state.favorites}
+          clickFavorite={this.clickFavorite}
         />
         <div className="searchBox">
           <div className="search-params myButtonBox !important">
@@ -110,6 +175,9 @@ class SearchParams extends Component {
             weight={this.state.weight}
             taxonomy={this.state.taxonomy}
             facts={this.state.facts}
+            userFavs={this.state.favorites}
+            handleFavorite={this.doFavorite}
+            handleUnfavorite={this.doUnfavorite}
           />
         ) : (
           <WarningMessage message={this.state.warningMessage} />

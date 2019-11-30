@@ -138,45 +138,90 @@ exports.postUserRegister = async (req, res) => {
 Input:
   {
     userID: "",
-    animalID: ""
+    animalName: ""
   }
 */
 
 exports.postUserAddFavorite = async (req, res) => {
-  const { userID, animalID } = req.body;
+  const { userID } = req.body;
+  let { animalName } = req.body;
+
+  animalName = animalName.toLowerCase();
 
   Users.findById(userID, function(err, user) {
-    if (!user) res.status(404).json(err);
-    else {
-      Animals.findById(animalID, function(err, animal) {
-        if (!animal) res.status(404).json(err);
-        else {
-          user.favoriteAnimals.push(animal.name);
+    if (!user) {
+      res.send({
+        success: false,
+        message: "User not found."
+      });
+    } else {
+      Animals.find({ name: animalName }, function(err, animal) {
+        if (!animal) {
+          res.send({
+            success: false,
+            message: "Animal not found."
+          });
+        } else {
+          user.favoriteAnimals.push(animalName);
         }
 
-        user.save().then(user => res.json(user));
+        user.save().then(user =>
+          res.send({
+            success: true,
+            favorites: user.favoriteAnimals,
+            message: "Added to favorites!"
+          })
+        );
       });
     }
   });
 };
 
 exports.postUserRemoveFavorite = async (req, res) => {
-  const { userID, animalID } = req.body;
+  const { userID } = req.body;
+  let { animalName } = req.body;
+
+  animalName = animalName.toLowerCase();
 
   Users.findById(userID, function(err, user) {
-    if (!user) res.status(404).json(err);
-    else {
-      Animals.findById(animalID, function(err, animal) {
-        if (!animal) res.status(404).json(err);
-        else {
+    if (!user) {
+      res.send({
+        success: false,
+        message: "User not found."
+      });
+    } else {
+      Animals.find({ name: animalName }, function(err, animal) {
+        if (!animal) {
+          res.send({
+            success: false,
+            message: "Animal not found."
+          });
+        } else {
           for (let i = 0; i < user.favoriteAnimals.length; i++) {
-            if (user.favoriteAnimals[i] == animal.name)
+            if (user.favoriteAnimals[i] == animalName)
               user.favoriteAnimals.splice(i--, 1);
           }
         }
 
-        user.save().then(user => res.json(user));
+        user.save().then(user =>
+          res.send({
+            success: true,
+            favorites: user.favoriteAnimals,
+            message: "Removed from favorites!"
+          })
+        );
       });
+    }
+  });
+};
+
+exports.postUserListFavorites = async (req, res) => {
+  const { userID } = req.body;
+
+  Users.findById(userID, function(err, user) {
+    if (!user) res.status(404).json(err);
+    else {
+      return res.json(user.favoriteAnimals);
     }
   });
 };

@@ -3,6 +3,20 @@ import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 class NavBar extends Component {
   render() {
+    let favoritesList = this.props.favorites.map(favorite => {
+      favorite = favorite.charAt(0).toUpperCase() + favorite.slice(1);
+
+      return (
+        <NavDropdown.Item
+          onClick={() => {
+            this.props.clickFavorite(favorite);
+          }}
+        >
+          {favorite}
+        </NavDropdown.Item>
+      );
+    });
+
     return (
       <div>
         <Navbar pullRight expand="md">
@@ -14,8 +28,9 @@ class NavBar extends Component {
                 <Nav.Link onClick={this.props.handleRandom}>Random</Nav.Link>
               )}
               {this.props.isLoggedIn && (
-                <Nav.Link href="#link">Favorites</Nav.Link>
+                <NavDropdown title="Favorites">{favoritesList}</NavDropdown>
               )}
+
               {this.props.isLoggedIn && (
                 <Nav.Link onClick={this.props.handleLogout}>Logout</Nav.Link>
               )}
