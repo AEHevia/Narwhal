@@ -1,0 +1,23 @@
+{
+  "summary": "Albatrosses, of the biological family Diomedeidae, are large seabirds related to the procellariids, storm petrels, and diving petrels in the order Procellariiformes (the tubenoses). They range widely in the Southern Ocean and the North Pacific. They are absent from the North Atlantic, although fossil remains show they once occurred there and occasional vagrants are found. Albatrosses are among the largest of flying birds, and species of the genus Diomedea (great albatrosses) have the longest wingspans of any extant birds, reaching up to 3.7 m (12 ft). The albatrosses are usually regarded as falling into four genera, but disagreement exists over the number of species.\nAlbatrosses are highly efficient in the air, using dynamic soaring and slope soaring to cover great distances with little exertion. It is the only bird that can fly 10,000 miles without landing. They feed on squid, fish, and krill by either scavenging, surface seizing, or diving. Albatrosses are colonial, nesting for the most part on remote oceanic islands, often with several species nesting together. Pair bonds between males and females form over several years, with the use of \"ritualised dances\", and  last for the life of the pair. A breeding season can take over a year from laying to fledging, with a single egg laid in each breeding attempt. A Laysan albatross, named Wisdom, on Midway Island is recognised as the oldest wild bird in the world; she was first banded in 1956 by Chandler Robbins.Of the 22 species of albatrosses recognised by the IUCN, all are listed as at some level of concern; three species are critically endangered, five species are endangered, seven species are near threatened, and seven species are vulnerable. Numbers of albatrosses have declined in the past due to harvesting for feathers. Albatrosses are threatened by introduced species, such as rats and feral cats that attack eggs, chicks, and nesting adults; by pollution; by a serious decline in fish stocks in many regions largely due to overfishing; and by longline fishing. Longline fisheries pose the greatest threat, as feeding birds are attracted to the bait, become hooked on the lines, and drown. Identified stakeholders such as governments, conservation organisations, and people in the fishing industry are all working toward reducing this bycatch.",
+  "facts": [
+    "albatross chicks take up to 280 days to learn how to fly. this is a substantially long time in comparison to other birds, but prepares them to spend a majority of their life (~80%) in flight over the seas. they'll return to land only when it's time to breed.",
+    "the royal albatross is the largest seabird in the world and can have a wingspan of up to 3 meters. it is estimated that they fly an average of 190,000 km each year. they have an average lifespan of 50 years and usually mate for life."
+  ],
+  "url": "https://en.wikipedia.org/wiki/Albatross",
+  "name": "albatross",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/7/73/Short_tailed_Albatross1.jpg",
+  "scientificName": "Diomedeidae",
+  "lifespan": "42 years",
+  "weight": "16 lbs",
+  "taxonomy": {
+    "kingdom": "",
+    "phylum": "",
+    "class": "",
+    "order": "",
+    "family": "",
+    "genus": "Phoebastria",
+    "species": ""
+  },
+  "located": ["Pacific & South Atlantic Coastlines"]
+}

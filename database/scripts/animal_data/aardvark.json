@@ -1,0 +1,23 @@
+{
+  "summary": "The aardvark ( ARD-vark; Orycteropus afer) is a medium-sized, burrowing, nocturnal mammal native to Africa. It is the only living species of the order Tubulidentata, although other prehistoric species and genera of Tubulidentata are known. Unlike other insectivores, it has a long pig-like snout, which is used to sniff out food. It roams over most of the southern two-thirds of the African continent, avoiding areas that are mainly rocky. A nocturnal feeder, it subsists on ants and termites, which it will dig out of their hills using its sharp claws and powerful legs. It also digs to create burrows in which to live and rear its young. It receives a \"least concern\" rating from the IUCN, although its numbers seem to be decreasing.\nAardvarks are afrotheres, along with elephants, manatees, hyraxes, and related mammals.",
+  "facts": [
+    "the aardvark is the only species in the family orycteropodidae and the only living member of order tubulidentata. while they may resemble anteaters their closest living relatives are elephants (order proboscidea), hyraxes (order hyracoidea), and dugongs and manatees (order sirenia).",
+    "aardvarks can fully close their nostrils to keep out dust and insects as they dig or raid termite or ant nests. baby aardvarks move out and make their own burrows at 6 months old."
+  ],
+  "url": "https://en.wikipedia.org/wiki/Aardvark",
+  "name": "aardvark",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Porc_formiguer.JPG",
+  "scientificName": "Orycteropus afer",
+  "lifespan": "24 years",
+  "weight": "88 to 180 lbs",
+  "taxonomy": {
+    "kingdom": "",
+    "phylum": "",
+    "class": "",
+    "order": "",
+    "family": "",
+    "genus": "Orycteropus",
+    "species": "O. afer"
+  },
+  "located": ["Central & South Africa"]
+}

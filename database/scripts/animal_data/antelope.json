@@ -1,0 +1,24 @@
+{
+  "summary": "An antelope is a member of a number of even-toed ungulate species indigenous to various regions in Africa and Eurasia.\nAntelopes comprise a wastebasket taxon (miscellaneous group) within the family Bovidae, encompassing those Old World species that are not cattle, sheep, buffalo, bison, or goats; even so, antelope are generally more deer-like than other bovids. A group of antelope is called a herd.",
+  "facts": [
+    "an oddity amongst modern bovids, the tiny chousingha antelope has four horns instead of the usual two.",
+    "a springbok is a medium-sized antelope found in southern & southwestern africa and is capable of leaping up to 6.6 feet in the air. they can survive years without drinking, deriving their liquid needs from eating succulent vegetation.",
+    "the bongo is a type of antelope that has two subspecies: the near threatened lowland/western and the critically endangered mountain/eastern that can only be found in the mountains of kenya or in captivity"
+  ],
+  "url": "https://en.wikipedia.org/wiki/Antelope",
+  "name": "antelope",
+  "image": "https://en.wikipedia.org/wiki/Antelope#/media/File:Blackbuck_male_female.jpg",
+  "scientificName": "Bovidae",
+  "lifespan": "15 - 20 years",
+  "weight": "13 - 200 lbs",
+  "taxonomy": {
+    "kingdom": "",
+    "phylum": "",
+    "class": "",
+    "order": "",
+    "family": "",
+    "genus": "",
+    "species": ""
+  },
+  "located": ["African savannahs"]
+}

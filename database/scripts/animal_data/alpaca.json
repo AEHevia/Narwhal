@@ -1,0 +1,22 @@
+{
+  "summary": "The alpaca (Vicugna pacos) is a species of South American camelid. It is similar to, and often confused with, the llama. However, alpacas are often noticeably smaller than llamas. The two animals are closely related and can successfully cross-breed. Alpacas and llamas are also closely related to the vicu\u00f1a, which is believed to be the alpaca's wild ancestor, and to the guanaco. \nThere are two breeds of alpaca: the Suri alpaca and the Huacaya alpaca.\nAlpacas are kept in herds that graze on the level heights of the Andes of Southern Peru, Western Bolivia, Ecuador, and Northern Chile at an altitude of 3,500 m (11,500 ft) to 5,000 m (16,000 ft) above sea level. Alpacas are considerably smaller than llamas, and unlike llamas, they were not bred to be working animals but were bred specifically for their fiber. Alpaca fiber is used for making knitted and woven items, similar to sheep's wool. These items include blankets, sweaters, hats, gloves, scarves, a wide variety of textiles and ponchos in South America, and sweaters, socks, coats and bedding in other parts of the world. The fiber comes in more than 52 natural colors as classified in Peru, 12 as classified in Australia, and 16 as classified in the United States.\nAlpacas communicate through body language. The most common is spitting when they are in distress, fearful, or mean to show dominance. Male alpacas are more aggressive than females, and tend to establish dominance of their herd group. In some cases, alpha males will immobilize the head and neck of a weaker or challenging male in order to show their strength and dominance.\nIn the textile industry, \"alpaca\" primarily refers to the hair of Peruvian alpacas, but more broadly it refers to a style of fabric originally made from alpaca hair, such as mohair, Icelandic sheep wool, or even high-quality wool from other breeds of sheep. In trade, distinctions are made between alpacas and the several styles of mohair and luster.An adult alpaca generally is between 81\u201399 centimetres (32\u201339 in) in height at the shoulders (withers). They usually weigh between 48\u201384 kilograms (106\u2013185 lb).",
+  "facts": [
+    "not all alpacas spit, but all are capable of doing so. alpacas commonly bring up acidic stomach contents and project it onto their chosen targets. spitting is mostly reserved for other alpacas, but an alpaca will also occasionally spit at a human"
+  ],
+  "url": "https://en.wikipedia.org/wiki/Alpaca",
+  "name": "alpaca",
+  "image": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Alpaca_%2831562329701%29.jpg/800px-Alpaca_%2831562329701%29.jpg",
+  "scientificName": "Lama pacos",
+  "lifespan": "20 years",
+  "weight": "120 to 140 lbs",
+  "taxonomy": {
+    "kingdom": "",
+    "phylum": "",
+    "class": "",
+    "order": "",
+    "family": "",
+    "genus": "Lama",
+    "species": "Lama pacos"
+  },
+  "located": ["South America"]
+}
