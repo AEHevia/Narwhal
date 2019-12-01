@@ -1,7 +1,7 @@
 body {
-  background-color: #3a3c3d !important;
+  background-color: #3e6990 !important;
   margin: 0;
-  font-family: "Helvetica Neue",  "sans-serif";
+  font-family: "Helvetica Neue", "sans-serif";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,183 +19,128 @@ code {
 }
 
 .myButtonBox {
-	box-shadow: 0px 10px 14px -7px #3e7327;
-	background-color:#2a4982;
-	border-radius:4px;
-	border:1px solid #09db87;
-	display:inline-block;
-	cursor:pointer;
-	font-family:Arial;
-	font-size:13px;
-	font-weight:bold;
-	padding:30px;
-	text-decoration:none;
-    text-shadow:0px 1px 0px #5b8a3c;
-    color: white;
+  box-shadow: 0px 10px 14px -7px black;
+  background-color: #396083;
+  border-radius: 4px;
+  display: inline-block;
+  cursor: pointer;
+  font-family: Arial;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 30px;
+  color: white;
 }
 
-::placeholder { /* Firefox, Chrome, Opera */
-    color: white !important;
+::placeholder {
+  /* Firefox, Chrome, Opera */
+  color: white !important;
 }
 
-:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: white !important;
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: white !important;
 }
 
-::-ms-input-placeholder { /* Microsoft Edge */
-    color: white !important;
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: white !important;
 }
 
 .form-control {
-    color: white !important;
-    background-color: #2a4982 !important;
+  color: #aabd8c !important;
+  background-color: #396083;
 }
 
 .btn-info {
-    background-color: black !important;
-    border-color: black !important;
-    margin-left: 5px;
+  background-color: black !important;
+  border-color: black !important;
+  margin-left: 5px;
 }
 
 .input-group-btn {
-    padding-top: 10px;
+  padding-top: 10px;
 }
 
 .searchBox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
 }
 
 .myButton {
-	box-shadow: 0px 10px 14px -7px #276873;
-	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
-	background-color:#599bb3;
-	border-radius:17px;
-	border:1px solid #5a6f8f;
-	display:inline-block;
-	cursor:pointer;
-	color:#ffffff;
-	font-family:Arial;
-	font-size:15px;
-	padding:6px 13px;
-	text-decoration:none;
-	text-shadow:0px 1px 0px #263666;
+  box-shadow: 0px 10px 14px -7px #276873;
+  background: linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+  background-color: #599bb3;
+  border-radius: 17px;
+  border: 1px solid #5a6f8f;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 15px;
+  padding: 6px 13px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #263666;
 }
 .myButton:hover {
-	background:linear-gradient(to bottom, #415989 5%, #2e466e 100%);
-	background-color:#415989;
+  background: linear-gradient(to bottom, #415989 5%, #2e466e 100%);
+  background-color: #415989;
 }
 .myButton:active {
-	position:relative;
-	top:1px;
+  position: relative;
+  top: 1px;
 }
-
-.plant-row:before {
-  content:"•    ";
-}
-
-.growth-p:before {
-  content:"Growth period: ";
-  font-weight: bold;
-}
-
-.lifespan:before {
-  content:"lifespan: ";
-  font-weight: bold;
-}
-
-.perennial_bloom:before {
-  content:"Perennial Bloom: ";
-  font-weight: bold;
-}
-
-.annual_bloom:before {
-  content:"Annual Bloom: ";
-  font-weight: bold;
-}
-
-.growth_period:before {
-  content:"Growth Period: ";
-  font-weight: bold;
-}
-
-.growth_rate:before {
-  content:"Growth Rate: ";
-  font-weight: bold;
-}
-
-.growth_reqs:before {
-  content:"Growth Requirements: ";
-  font-weight: bold;
-}
-
-.water_reqs:before {
-  content:"Water Requirements: ";
-  font-weight: bold;
-}
-
-.temp_reqs:before {
-  content:"Temperature Requirements: ";
-  font-weight: bold;
-}
-
-.sun_exposure:before {
-  content:"Sun Exposure: ";
-  font-weight: bold;
-}
-
-.plant-title{
-  color: #F90B6D; 
-  font-family: 'Open Sans', sans-serif; 
-  font-size: 34px; 
-  font-weight: 300; 
-  line-height: 40px; 
-  margin: 0 0 16px;
-}
-
 
 .navbar {
-    background: #2a4982;
-    /*margin-bottom: 40px;*/
+  background: #396083;
 }
 
 .container {
-    color: white;
-    padding: 20px;
-    background-color: #2a4982;
+  color: white;
+  padding: 20px;
+  background-image: url("https://i.pinimg.com/originals/54/14/c7/5414c70e4a396d6d96f0a9d0114723ab.jpg");
 }
 
 .animal-pic {
-    max-width: 100%;
-    max-height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  border: solid #6d795a;
 }
 
 .details-info {
-    padding: 20px;
-    background-color: #818fd6;
+  padding: 20px;
+  background-color: #396083;
+}
+
+.header-stat-detail {
+  color: black;
+}
+
+.animal-heading {
+  color: #6d795a;
+  font-weight: bold;
 }
 
 .stat-detail {
-    color: black;
+  color: #6d795a;
 }
 
 @media only screen and (max-width: 760px) {
-    .animal-pic {
-        padding-top: 20px !important;
-    }
+  .animal-pic {
+    padding-top: 20px !important;
+  }
 }
 
 .warning-message {
-    text-align: center;
-    color: red;
+  text-align: center;
+  color: red;
 }
 
 .favorite-button {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 a.nav-link {
-    color: white !important;
+  color: white !important;
 }
