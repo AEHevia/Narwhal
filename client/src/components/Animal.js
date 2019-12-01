@@ -23,10 +23,10 @@ class Animal extends Component {
     let favorited = this.props.userFavs.includes(this.props.name);
 
     return (
-      <Container className="container">
+      <Container className="container card-body border-secondary">
         {favorited && (
           <Button
-            className="favorite-button"
+            className="paper-btn btn-warning"
             onClick={() => {
               favorited = !favorited;
               this.props.handleUnfavorite(this.props.name);
@@ -37,7 +37,7 @@ class Animal extends Component {
         )}
         {!favorited && (
           <Button
-            className="favorite-button"
+            className="paper-btn btn-warning"
             onClick={() => {
               favorited = !favorited;
               this.props.handleFavorite(this.props.name);
@@ -49,24 +49,30 @@ class Animal extends Component {
 
         <Row class="general-info">
           <Col md={8}>
-            <h1>{name}</h1>
-            <div class="details-info">{this.props.summary}</div>
+            <h1 className="animal-heading">{name}</h1>
+            <div class="details-info shadow shadow-large">
+              {this.props.summary}
+            </div>
           </Col>
           <Col md={4}>
-            <Image className="animal-pic" src={this.props.image} rounded />
+            <Image
+              className="animal-pic shadow shadow-large"
+              src={this.props.image}
+              rounded
+            />
           </Col>
         </Row>
         <Row>
           <Col md={8}>
             <Row>
               <Col md={8}>
-                <h4>
+                <h4 className="header-stat-detail">
                   Lifespan:{" "}
                   <span className="stat-detail">{this.props.lifespan}</span>
                 </h4>
               </Col>
               <Col md={8}>
-                <h4>
+                <h4 className="header-stat-detail">
                   Scientific Name:{" "}
                   <span className="stat-detail">
                     {this.props.scientificName}
@@ -74,7 +80,7 @@ class Animal extends Component {
                 </h4>
               </Col>
               <Col md={8}>
-                <h4>
+                <h4 className="header-stat-detail">
                   Weight:{" "}
                   <span className="stat-detail">{this.props.weight}</span>
                 </h4>
@@ -82,10 +88,10 @@ class Animal extends Component {
             </Row>
           </Col>
           <Col md={4}>
-            <h4>
+            <h4 className="header-stat-detail">
               Located: <span className="stat-detail">{locatedList}</span>
             </h4>
-            <h4>
+            <h4 className="header-stat-detail">
               Taxonomy:{" "}
               <span className="stat-detail">
                 <li>Genus: {this.props.taxonomy.genus}</li>
@@ -98,12 +104,12 @@ class Animal extends Component {
         </Row>
         <Row>
           <Col md={8}>
-            <h4>Facts:</h4>
+            <h4 className="header-stat-detail">Facts:</h4>
           </Col>
         </Row>
         <Row>
           <Col>
-            <div className="details-info">{factsList}</div>
+            <div className="details-info shadow shadow-large">{factsList}</div>
           </Col>
         </Row>
       </Container>

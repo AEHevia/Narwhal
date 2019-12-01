@@ -157,7 +157,10 @@ class SearchParams extends Component {
                 placeholder="Narwhal"
               />
               <span className="input-group-btn">
-                <button onClick={this.handleSubmit} className="btn btn-info">
+                <button
+                  onClick={this.handleSubmit}
+                  className="paper-btn btn-success"
+                >
                   Submit
                 </button>
               </span>
