@@ -21,7 +21,8 @@ class SearchParams extends Component {
       weight: "",
       facts: "",
       warningMessage: "",
-      favorites: []
+      favorites: [],
+      didTrack: false
     };
   }
 
@@ -61,6 +62,17 @@ class SearchParams extends Component {
         });
       }
     });
+
+    axios
+      .post("/api/animals/track", {
+        animalName: this.animalName,
+        userID: this.props.userID
+      })
+      .then(res =>
+        this.setState({
+          didTrack: res.data.success
+        })
+      );
   };
 
   handleChange = event => {

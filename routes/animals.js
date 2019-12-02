@@ -1,4 +1,6 @@
 const Animal = require("../models/Animals");
+const Users = require("../models/Users");
+const Search = require("../models/Searches");
 const random = require("mongoose-simple-random");
 
 // @route   GET api/animals/getall
@@ -29,6 +31,51 @@ exports.getAnimalsFindName = async (req, res) => {
     return res.json({
       success: false
     });
+  });
+};
+
+exports.postAnimalTrackQuery = async (req, res) => {
+  const { userID } = req.body;
+  let animalName = req.body.animalName.toLowerCase();
+  let today = new Date();
+
+  Users.findById(userID, function(err, user) {
+    if (!user) {
+      res.send({
+        success: false,
+        message: "User not found."
+      });
+    } else if (today.getFullYear() - user.age.getFullYear() < 13) {
+      res.send({
+        success: false,
+        message: "User not 13 or older."
+      });
+    } else {
+      Search.findOne({ animalName: animalName }, function(err, search) {
+        if (err) {
+          return res.json(err);
+        }
+        if (search) {
+          search.count = search.count + 1;
+
+          search
+            .save()
+            .then(search => res.send({ success: true, search: search }));
+        } else {
+          const newSearch = new Search({
+            animalName: animalName,
+            count: 1
+          });
+
+          newSearch.save().then(search =>
+            res.json({
+              success: true,
+              search: search
+            })
+          );
+        }
+      });
+    }
   });
 };
 

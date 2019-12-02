@@ -47,6 +47,7 @@ app.post("/api/user/listfavorites", routes.postUserListFavorites);
 app.get("/api/animals/getall", routes.getAnimalsGetAllAnimals);
 app.get("/api/animals/getRandom", routes.getRandomAnimal);
 app.get("/api/animals/:name", routes.getAnimalsFindName);
+app.post("/api/animals/track", routes.postAnimalTrackQuery);
 app.post("/api/animals/", routes.postAnimalsAdd);
 
 // Anything that doesn't match the above, send back the index.html file

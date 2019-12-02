@@ -61,7 +61,7 @@ exports.postUserLogin = async (req, res) => {
 
 exports.postUserRegister = async (req, res) => {
   let { email } = req.body;
-  const { password, age, location } = req.body;
+  const { password, age } = req.body;
 
   if (!email) {
     return res.send({
@@ -79,12 +79,6 @@ exports.postUserRegister = async (req, res) => {
     return res.send({
       success: false,
       message: "Error: Age cannot be blank"
-    });
-  }
-  if (!location) {
-    return res.send({
-      success: false,
-      message: "Error: Location cannot be blank"
     });
   }
 
@@ -114,7 +108,6 @@ exports.postUserRegister = async (req, res) => {
       newUser.password = newUser.generateHash(password);
       newUser.favoriteAnimals = [];
       newUser.age = age;
-      newUser.location = location;
 
       newUser.save((err, user) => {
         if (err) {

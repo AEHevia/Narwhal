@@ -8,7 +8,7 @@ class RegisterBox extends Component {
     password: "",
     confirmPassword: "",
     age: "",
-    location: "",
+    birthDate: new Date(),
     errors: [],
     pwdStrength: null,
     success: false
@@ -51,20 +51,16 @@ class RegisterBox extends Component {
 
   submitRegister = e => {
     let registerSuccess = true;
-    const { email, password, confirmPassword, age, location } = this.state;
+    const { email, password, confirmPassword, age } = this.state;
 
     if (email == "") {
       this.showValidationErr("email", "Please enter an email.");
       registerSuccess = false;
     }
-    if (location == "") {
-      this.showValidationErr("location", "Please enter your location.");
+    if (age == "") {
+      this.showValidationErr("age", "Please enter your age.");
       registerSuccess = false;
     }
-    // if (age == "") {
-    //   this.showValidationErr("age", "Please enter your age.");
-    //   registerSuccess = false;
-    // }
     if (password == "") {
       this.showValidationErr("password", "Please enter a password.");
       registerSuccess = false;
@@ -84,23 +80,21 @@ class RegisterBox extends Component {
       const userInfo = {
         email: this.state.email,
         password: this.state.password,
-        location: this.state.location,
-        age: new Date()
+        age: this.state.birthDate.setFullYear(
+          this.state.birthDate.getFullYear() - this.state.age
+        )
       };
 
-      axios
-        .post("api/user/register", userInfo)
-        .then(res =>
-          this.setState({
-            success: true
-          })
-        );
+      axios.post("api/user/register", userInfo).then(res =>
+        this.setState({
+          success: true
+        })
+      );
     }
   };
 
   render() {
     let emailErr = null,
-      locationError = null,
       ageError = null,
       passwordErr = null,
       confirmPasswordErr = null;
@@ -108,9 +102,6 @@ class RegisterBox extends Component {
     for (let err of this.state.errors) {
       if (err.elm == "email") {
         emailErr = err.msg;
-      }
-      if (err.elm == "location") {
-        locationError = err.msg;
       }
       if (err.elm == "age") {
         ageError = err.msg;
@@ -141,7 +132,13 @@ class RegisterBox extends Component {
         <img src={logo} className="logo-img" alt="logo"></img>
 
         <div className="header">Register</div>
-        {this.state.success ? <div className="success-register-label">You have successfully registered.</div> : ""}
+        {this.state.success ? (
+          <div className="success-register-label">
+            You have successfully registered.
+          </div>
+        ) : (
+          ""
+        )}
         <div className="box">
           <div className="input-group">
             <label htmlFor="username">Email</label>
@@ -156,20 +153,6 @@ class RegisterBox extends Component {
           </div>
 
           <div className="input-group">
-            <label htmlFor="username">Location</label>
-            <input
-              type="text"
-              name="location"
-              className="login-input"
-              placeholder="Location"
-              onChange={this.onChange}
-            />
-            <small className="danger-error">
-              {locationError ? locationError : ""}
-            </small>
-          </div>
-
-          {/* <div className="input-group">
             <label htmlFor="username">Age</label>
             <input
               type="text"
@@ -179,7 +162,7 @@ class RegisterBox extends Component {
               onChange={this.onChange}
             />
             <small className="danger-error">{ageError ? ageError : ""}</small>
-          </div> */}
+          </div>
 
           <div className="input-group">
             <label htmlFor="password">Password</label>

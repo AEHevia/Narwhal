@@ -8,6 +8,7 @@ const {
 const {
   getAnimalsGetAllAnimals,
   getAnimalsFindName,
+  postAnimalTrackQuery,
   postAnimalsAdd,
   getRandomAnimal
 } = require("./animals");
@@ -35,6 +36,9 @@ exports.getAnimalsGetAllAnimals = async (req, res) => {
 };
 exports.getAnimalsFindName = async (req, res) => {
   await getAnimalsFindName(req, res);
+};
+exports.postAnimalTrackQuery = async (req, res) => {
+  await postAnimalTrackQuery(req, res);
 };
 exports.postAnimalsAdd = async (req, res) => {
   await postAnimalsAdd(req, res);

@@ -18,11 +18,6 @@ const UserSchema = new Schema({
     type: Date,
     required: true
   },
-  location: {
-    type: String,
-    trim: true,
-    required: true
-  },
   favoriteAnimals: [
     {
       type: String
