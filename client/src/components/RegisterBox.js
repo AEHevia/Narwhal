@@ -10,7 +10,8 @@ class RegisterBox extends Component {
     age: "",
     location: "",
     errors: [],
-    pwdStrength: null
+    pwdStrength: null,
+    success: false
   };
 
   showValidationErr = (elm, msg) => {
@@ -90,11 +91,9 @@ class RegisterBox extends Component {
       axios
         .post("api/user/register", userInfo)
         .then(res =>
-          alert(
-            res.data.success
-              ? "Registered! :)"
-              : "Registration failed. :(\n" + res.data.message
-          )
+          this.setState({
+            success: true
+          })
         );
     }
   };
@@ -142,7 +141,7 @@ class RegisterBox extends Component {
         <img src={logo} className="logo-img" alt="logo"></img>
 
         <div className="header">Register</div>
-
+        {this.state.success ? <div className="success-register-label">You have successfully registered.</div> : ""}
         <div className="box">
           <div className="input-group">
             <label htmlFor="username">Email</label>

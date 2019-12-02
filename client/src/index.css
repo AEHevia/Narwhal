@@ -144,3 +144,7 @@ code {
 a.nav-link {
   color: white !important;
 }
+
+.success-register-label {
+ color: red;
+}
