@@ -25,7 +25,7 @@ class AnimalInfo {
 
 const List<Destination> allDestinations = <Destination>[
   Destination(0, 'Search', Icons.search, Colors.teal),
-  Destination(1, 'Home', Icons.home, Colors.cyan),
+  Destination(1, 'Favorites', Icons.favorite, Colors.cyan),
   Destination(2, 'Camera', Icons.photo_camera, Colors.orange),
 ];
 
@@ -39,6 +39,7 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text(user.name),
         )
     );
@@ -82,18 +83,10 @@ class _DestinationViewState extends State<DestinationView> {
       return TakePictureScreen(camera: widget.camera);
     }
     else if (widget.destination.title == 'Search') {
-      return new SearchPage();
+      return new SearchPage(userID: widget.userID);
     }
     else {
-      return Scaffold(
-        backgroundColor: widget.destination.color[100],
-        body: Container(
-          padding: const EdgeInsets.all(32.0),
-          alignment: Alignment.center,
-          child: TextField(controller: _textController),
-          // child: Text('Dope'),
-        ),
-      );
+      return new DisplayFavoritesScreen(userID: widget.userID);
     }
   }
 
@@ -101,6 +94,145 @@ class _DestinationViewState extends State<DestinationView> {
   void dispose() {
     _textController.dispose();
     super.dispose();
+  }
+}
+
+class DisplayFavoritesScreen extends StatefulWidget {
+  final userID;
+
+  const DisplayFavoritesScreen({ Key key, this.userID }): super(key: key);
+
+  @override
+  DisplayFavoritesScreenState createState() => DisplayFavoritesScreenState();
+}
+
+class DisplayFavoritesScreenState extends State<DisplayFavoritesScreen> {
+  Future<List<String>> _favoriteAnimals;
+
+  @override
+  void initState() {
+    super.initState();
+    _favoriteAnimals = _getFavoriteAnimals();
+  }
+
+  Set<String> _saved;
+
+
+  Future<List<String>> _getFavoriteAnimals() async {
+    this._saved = new Set();
+
+    String _userID = widget.userID;
+    print('UserID: ' + _userID);
+    String url = 'https://narwhal-poosd.herokuapp.com/api/user/listfavorites';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = '{"userID": "$_userID"}';
+    
+    print('Sending POST: ' + json);
+
+    var data = await http.post(url, headers: headers, body: json);
+
+    print(data.body);
+
+    List<dynamic> response = jsonDecode(data.body);
+
+    print(response);
+
+    List<String> listOfFavorites = [];
+
+    for (var item in response) {
+      listOfFavorites.add(item);
+      this._saved.add(item);
+    }
+
+    return listOfFavorites;
+  }
+
+  void _unfavorite(String _animalName) async {
+    print('Unfavorite ' + _animalName);
+
+    String _userID = widget.userID;
+    print('UserID: ' + _userID);
+    String url = 'https://narwhal-poosd.herokuapp.com/api/user/unfavorite';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = '{"userID": "$_userID", "animalName": "$_animalName"}';
+
+    print('Sending POST: ' + json);
+
+    var data = await http.post(url, headers: headers, body: json);
+
+    print(data.body);    
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Widget favoriteAnimals = new Container(
+      child: FutureBuilder<List<String>>(
+        future: _favoriteAnimals,
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Container(
+              child: Center(
+                child: Text("Loading...")
+              )
+            );
+          } else {
+            return ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: ListTile(
+                    title: Text(snapshot.data[index]),
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DisplayAnimalPage(animalName: snapshot.data[index])),
+                    ),
+                    /*
+                    trailing: IconButton(
+                      icon: alreadySaved ? new Icon(Icons.favorite) : new Icon(Icons.favorite_border),
+                      color: alreadySaved ? Colors.red : null,
+                      onPressed: () {
+                        _unfavorite(snapshot.data[index]);
+                        setState(() {
+                          _favoriteAnimals = _getFavoriteAnimals();
+                        });
+                      },
+                    ),
+                    */
+                  ),
+                );
+              },
+            );
+          }
+        },
+      ),
+    );  
+
+    return Scaffold(
+      appBar: new AppBar(
+        centerTitle: true,
+        title: new Text('Narwhal'),
+      ),
+      body: new Scrollbar(
+        child: ListView(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+              'Favorite Animals', 
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                ),
+              ),
+            ),
+            favoriteAnimals,
+          ],
+        )
+      )
+    );
   }
 }
 
@@ -156,6 +288,10 @@ class TakePictureScreenState extends State<TakePictureScreen> {
       // Wait until the controller is initialized before displaying the
       // camera preview. Use a FutureBuilder to display a loading spinner
       // until the controller has finished initializing.
+      appBar: new AppBar(
+        centerTitle: true,
+        title: new Text('Narwhal'),
+      ),
       body: FutureBuilder<void>(
         future: _initializeControllerFuture,
         builder: (context, snapshot) {
@@ -201,7 +337,7 @@ class TakePictureScreenState extends State<TakePictureScreen> {
           }
         },
         child: Icon(Icons.photo_camera),
-        backgroundColor: Colors.blue,  
+        backgroundColor: Colors.cyan,  
         elevation: 0.0,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,    
@@ -209,72 +345,164 @@ class TakePictureScreenState extends State<TakePictureScreen> {
   }
 }
 
-// A widget that displays the picture taken by the user.
-class DisplayPictureScreen extends StatelessWidget {
+
+class DisplayPictureScreen extends StatefulWidget {
   final String imagePath;
 
-  const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
+  const DisplayPictureScreen({
+    Key key,
+    this.imagePath,
+  }) : super(key: key);
 
-  Future<List<String>> _getUsers() async {
+  @override
+  DisplayPictureScreenState createState() => DisplayPictureScreenState(); 
+}
+// A widget that displays the picture taken by the user.
+class DisplayPictureScreenState extends State<DisplayPictureScreen> {
+  String animalName = 'Narwhal';
 
-    var data = await http.get("https://jsonplaceholder.typicode.com/users");
-    var data2 = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/elephant");
+  // DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
 
-    var jsonData = json.decode(data.body);
+  @override
+  void initState() {
+    super.initState();
+    this._getAnimalName();
+  }
 
-    Map<String, dynamic> animal = jsonDecode(data2.body);
+  void _getAnimalName() async {
+    String url = 'https://eastus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/1cd33350-ca8a-457e-9ffd-24c856679c91/classify/iterations/Narwhal/image';
+    Map<String, String> headers = {"Content-type": "application/octet-stream", "Prediction-Key": "89144960aa5c4fe695644634636d68de"};
+    File imageFile = File(widget.imagePath);
+    List<int> imageBytes = imageFile.readAsBytesSync();
+    var response = await http.post(url, headers: headers, body: imageBytes);
 
-    // print(animal);
-    // print(animal['success']);
-    // print(animal['animal']);
+    Map<String, dynamic> apiResultMap = jsonDecode(response.body);
+    List<dynamic> predictionResults = apiResultMap['predictions'];
 
+    String newAnimalName = predictionResults[0]['tagName'];
+
+    setState(() {
+      this.animalName = newAnimalName;
+    });
+  }
+
+  Future<List<String>> _getAnimalFacts() async {
+    String url = 'https://eastus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/1cd33350-ca8a-457e-9ffd-24c856679c91/classify/iterations/Narwhal/image';
+    Map<String, String> headers = {"Content-type": "application/octet-stream", "Prediction-Key": "89144960aa5c4fe695644634636d68de"};
+    File imageFile = File(widget.imagePath);
+    List<int> imageBytes = imageFile.readAsBytesSync();
+    var response = await http.post(url, headers: headers, body: imageBytes);
+
+    Map<String, dynamic> apiResultMap = jsonDecode(response.body);
+    List<dynamic> predictionResults = apiResultMap['predictions'];
+
+    String newAnimalName = predictionResults[0]['tagName'];
+
+    var databaseResult = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + newAnimalName);
+
+    Map<String, dynamic> animal = jsonDecode(databaseResult.body);  
     List<dynamic> animalInfo = animal['animal'];
-    // print(animalInfo);
-    print(animalInfo[0]);
-    print(animalInfo[0]['name']);
-    print(animalInfo[0]['weight']);
-    print(animalInfo[0]['facts']);
+    List<String> animalFacts = [];
+
+    if (animalInfo == null) {
+      return animalFacts;
+    }
 
     var factList = animalInfo[0]['facts'];
 
-    for (var fact in animalInfo[0]['facts']) {
-      print(fact);
+    for (int i = 0; i < factList.length; i++) {
+      animalFacts.add(i.toString() + ': ' + factList[i]);
     }
 
-    List<String> animalFacts = [];
+    return animalFacts;    
+  }
 
-    for (var fact in factList) {
-      animalFacts.add(fact);
+  Future<String> _getAnimalImage() async {
+    File imageFile = File(widget.imagePath);
+    List<int> imageBytes = imageFile.readAsBytesSync();
+    String base64Image = base64.encode(imageBytes);
+    new Image.memory(base64.decode(base64Image), fit: BoxFit.cover);
+  }
+
+  Future<List<AnimalInfo>> _getAnimalInfo() async {
+    String url = 'https://eastus.api.cognitive.microsoft.com/customvision/v3.0/Prediction/1cd33350-ca8a-457e-9ffd-24c856679c91/classify/iterations/Narwhal/image';
+    Map<String, String> headers = {"Content-type": "application/octet-stream", "Prediction-Key": "89144960aa5c4fe695644634636d68de"};
+    File imageFile = File(widget.imagePath);
+    List<int> imageBytes = imageFile.readAsBytesSync();
+    var response = await http.post(url, headers: headers, body: imageBytes);
+
+    Map<String, dynamic> apiResultMap = jsonDecode(response.body);
+    List<dynamic> predictionResults = apiResultMap['predictions'];
+
+    String newAnimalName = predictionResults[0]['tagName'].toLowerCase();
+
+    var databaseResult = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + newAnimalName);
+
+    Map<String, dynamic> animal = jsonDecode(databaseResult.body);
+
+    List<AnimalInfo> list = [];
+    
+    if (animal['animal'] == null) {
+      return list;
     }
 
-    // List<User> users = [];
-    // for (var u in jsonData) {
-    //  User user = User(u["name"], u["email"]);
-    //  users.add(user);
-    //}
+    Map<String, dynamic> animalInfo = animal['animal'][0];
 
-    // return users;
-    return animalFacts;
+    for (var entry in animalInfo.entries) {
+      if (entry.key == 'summary' || entry.key == 'weight' || entry.key == 'lifespan') {
+        list.add(new AnimalInfo(entry.key, entry.value));
+      }
+    }
+
+    this.animalName = newAnimalName;
+    return list;
   }
 
   @override
   Widget build(BuildContext context) {
-    print('Image file path is: $imagePath');
+    print('Image file path is: $widget.imagePath');
     
-    File imageFile = File(imagePath);
+    File imageFile = File(widget.imagePath);
     List<int> imageBytes = imageFile.readAsBytesSync();
     String base64Image = base64.encode(imageBytes);
     print('Base64 string is: $base64Image');
 
-    final Set<String> _saved = Set<String>();  
-
-    // Widget titleSection = new Text("This is a title section");
-    Widget titleSection = new Container(
+    Widget animalInfo = new Container(
       child: FutureBuilder(
-        future: _getUsers(),
-        builder: (BuildContext context, AsyncSnapshot snapshot){
-          print(snapshot.data);
-          if(snapshot.data == null){
+        future: _getAnimalInfo(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Container(
+              child: Center(
+                child: Text("Loading...")
+              )
+            );
+          } else {
+            var list = ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: ListTile(
+                    title: Text(snapshot.data[index].type),
+                    subtitle: Text(snapshot.data[index].info),
+                  ),
+                );
+              },
+            );
+
+            return list;
+          }
+        },
+      ),
+    );
+
+    Widget animalFacts = new Container(
+      child: FutureBuilder(
+        future: _getAnimalFacts(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
             return Container(
               child: Center(
                 child: Text("Loading...")
@@ -286,24 +514,10 @@ class DisplayPictureScreen extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(snapshot.data[index]),
-                  // subtitle: Text(snapshot.data[index]),
-                  trailing: Icon(
-                    _saved.contains(snapshot.data[index]) ? Icons.favorite : Icons.favorite_border,
-                    color: _saved.contains(snapshot.data[index]) ? Colors.red : null,
+                return Card(
+                  child: ListTile(
+                    title: Text(snapshot.data[index]),
                   ),
-                  onTap: () {
-                    // TODO: ADD CHECKING FOR FAVORITE FACTS
-                    if (_saved.contains(snapshot.data[index])) {
-                      // _saved.remove(snapshot.data[index].name);
-                    }
-                    else {
-                      // print('I got here');
-                      // print('adding $snapshot.data[index]');
-                      // _saved.add(snapshot.data[index].name);
-                    }
-                  },
                 );
               },
             );
@@ -311,23 +525,71 @@ class DisplayPictureScreen extends StatelessWidget {
         },
       ),
     );
+
+    Widget animalImage = new Container(
+      child: FutureBuilder(
+        future: _getAnimalImage(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.data == null) {
+            return Image.network(
+              'https://images.unsplash.com/photo-151652838761' +
+              '8-afa90b13e000?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQi' +
+              'OjEyMDd9&auto=format&fit=crop&w=1050&q=80'
+            );
+          } else {
+            return Image.network(
+              snapshot.data,
+            );
+          }
+        }
+      )
+    );
     
     return new MaterialApp(
       title: "",
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text('Narwhal'),
+          centerTitle: true,
+          title: new Text(this.animalName),
         ),
         body: new Scrollbar(
           child: ListView(
-            children: <Widget>[
-              new Image.memory(base64.decode(base64Image), fit: BoxFit.cover),
-              titleSection
-            ],
+          children: <Widget>[
+            new Image.memory(base64.decode(base64Image), fit: BoxFit.cover),
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+              'Animal Information', 
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                ),
+              ),
+            ),
+            animalInfo,
+            Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
+              'Fun Facts', 
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                ),
+              ),
+            ),
+            animalFacts,
+          ],
           )
         )
       )
     );
+  }
+
+    @override
+  void dispose() {
+    super.dispose();
   }
 }
 
@@ -352,10 +614,6 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin<HomeP
     print(widget.userID);
 
     return Scaffold(
-      appBar: new AppBar(
-        centerTitle: true,
-        title: new Text('Narwhal'),
-      ),
       body: SafeArea(
         top: false,
         child: IndexedStack(
@@ -385,7 +643,9 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin<HomeP
 }
 
 class SearchPage extends StatefulWidget {
-  // ExamplePage({ Key key }) : super(key: key);
+  final String userID;
+  SearchPage({ Key key, this.userID }) : super(key: key);
+
   @override
   _SearchPageState createState() => new _SearchPageState();
 }
@@ -400,6 +660,8 @@ class _SearchPageState extends State<SearchPage> {
   List filteredNames = new List();
   Icon _searchIcon = new Icon(Icons.search);
   Widget _appBarTitle = new Text('Search');
+
+  Future<Set<String>> _saved;
 
   _SearchPageState() {
     _filter.addListener(() {
@@ -422,6 +684,33 @@ class _SearchPageState extends State<SearchPage> {
     super.initState();
   }
 
+  Future<Set<String>> _getFavoriteAnimalsSet() async {
+    String _userID = widget.userID;
+    print('UserID: ' + _userID);
+    String url = 'https://narwhal-poosd.herokuapp.com/api/user/listfavorites';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = '{"userID": "$_userID"}';
+    
+    print('Sending POST: ' + json);
+
+    var data = await http.post(url, headers: headers, body: json);
+
+    print(data.body);
+
+    List<dynamic> response = jsonDecode(data.body);
+
+    print(response);
+
+    Set<String> setOfFavorites = new Set();
+
+    for (var item in response) {
+      setOfFavorites.add(item);
+    }
+
+    return setOfFavorites;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildBar(context),
@@ -443,6 +732,38 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
+  void _unfavorite(String _animalName) async {
+    print('Unfavorite ' + _animalName);
+
+    String _userID = widget.userID;
+    print('UserID: ' + _userID);
+    String url = 'https://narwhal-poosd.herokuapp.com/api/user/unfavorite';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = '{"userID": "$_userID", "animalName": "$_animalName"}';
+
+    print('Sending POST: ' + json);
+
+    var data = await http.post(url, headers: headers, body: json);
+
+    print(data.body);    
+  }
+
+  void _favorite(String _animalName) async {
+    print('Favorite ' + _animalName);
+
+    String _userID = widget.userID;
+    print('UserID: ' + _userID);
+    String url = 'https://narwhal-poosd.herokuapp.com/api/user/favorite';
+    Map<String, String> headers = {"Content-type": "application/json"};
+    String json = '{"userID": "$_userID", "animalName": "$_animalName"}';
+
+    print('Sending POST: ' + json);
+
+    var data = await http.post(url, headers: headers, body: json);
+
+    print(data.body);    
+  }
+
   Widget _buildList() {
     if (_searchText.isNotEmpty) {
       List tempList = new List();
@@ -456,13 +777,27 @@ class _SearchPageState extends State<SearchPage> {
     return ListView.builder(
       itemCount: names == null ? 0 : filteredNames.length,
       itemBuilder: (BuildContext context, int index) {
-        return new ListTile(
-          title: Text(filteredNames[index]),
-          // onTap: () => print(filteredNames[index]),
-          onTap: () => Navigator.push(
+        // bool alreadySaved = _saved.contains(filteredNames[index]);
+        return Card(
+          child: ListTile(
+            title: Text(filteredNames[index]),
+            onTap: () => Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => SecondRoute(animalName: filteredNames[index])),
-            )
+              MaterialPageRoute(builder: (context) => DisplayAnimalPage(animalName: filteredNames[index])),
+            ),
+            /*
+            trailing: IconButton(
+              icon: alreadySaved ? new Icon(Icons.favorite) : new Icon(Icons.favorite_border),
+              color: alreadySaved ? Colors.red : null,
+              onPressed: () {
+                alreadySaved ? _unfavorite(filteredNames[index]) : _favorite(filteredNames[index]);
+                setState(() {
+                  _saved = _getFavoriteAnimalsSet();
+                });
+              },
+            ),
+            */
+          ),
         );
       },
     );
@@ -488,32 +823,31 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  // /api/animals/getall
-
   void _getNames() async {
     var data = await http.get('https://narwhal-poosd.herokuapp.com/api/animals/getall');
     List<dynamic> allAnimals = jsonDecode(data.body);
 
     List tempList = new List();
+    Set<String> tempSet = new Set();
+
     for (int i = 0; i < allAnimals.length; i++) {
       if (allAnimals[i]['name'] != null)
         tempList.add(allAnimals[i]['name']);
+        tempSet.add(allAnimals[i]['name']);
     }
     setState(() {
       names = tempList;
-      names.shuffle();
       filteredNames = names;
     });
   }
 }
 
-class SecondRoute extends StatelessWidget {
+class DisplayAnimalPage extends StatelessWidget {
   final animalName;
-  var animalImage;
 
-  SecondRoute({ Key key, this.animalName }): super(key: key);
+  DisplayAnimalPage({ Key key, this.animalName }): super(key: key);
 
-  Future<List<String>> _getUsers() async {
+  Future<List<String>> _getAnimalFacts() async {
     var data = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + this.animalName);
     Map<String, dynamic> animal = jsonDecode(data.body);
 
@@ -523,16 +857,7 @@ class SecondRoute extends StatelessWidget {
 
     List<String> animalFacts = [];
 
-    /*
-    var summary = animalInfo[0]['summary'];
-    animalFacts.add('Summary: ' + summary);
-
-    var lifespan = animalInfo[0]['lifespan'];
-    animalFacts.add('Lifespan: ' + lifespan);
-    
-    var weight = animalInfo[0]['weight'];
-    animalFacts.add('Weight: ' + weight);
-    */
+    if (animalInfo == null) return animalFacts;
 
     var factList = animalInfo[0]['facts'];
     for (var fact in factList) {
@@ -543,18 +868,26 @@ class SecondRoute extends StatelessWidget {
   }
 
   Future<String> _getAnimalImage() async {
-  var data = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + this.animalName);
-      Map<String, dynamic> animal = jsonDecode(data.body);
-      List<dynamic> animalInfo = animal['animal'];
+    var data = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + this.animalName);
+    Map<String, dynamic> animal = jsonDecode(data.body);
 
-      return animalInfo[0]['image']; 
+    if (animal['animal'] == null) return null;
+
+    List<dynamic> animalInfo = animal['animal'];
+
+    if (animalInfo == null) return null;
+
+    print('Attempting to pull up Image with URL:');
+    print(animalInfo[0]['image']);
+
+    return animalInfo[0]['image']; 
   }
-
   Future<List<AnimalInfo>> _getAnimalInfo() async {
     var data = await http.get("https://narwhal-poosd.herokuapp.com/api/animals/" + this.animalName);
     Map<String, dynamic> animal = jsonDecode(data.body);
-    Map<String, dynamic> animalInfo = animal['animal'][0];
     List<AnimalInfo> list = [];
+    if (animal['animal'] == null) return list;
+    Map<String, dynamic> animalInfo = animal['animal'][0];
 
     for (var entry in animalInfo.entries) {
       if (entry.key == 'summary' || entry.key == 'weight' || entry.key == 'lifespan') {
@@ -583,9 +916,11 @@ class SecondRoute extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(snapshot.data[index].type),
-                  subtitle: Text(snapshot.data[index].info),
+                return Card(
+                  child: ListTile(
+                    title: Text(snapshot.data[index].type),
+                    subtitle: Text(snapshot.data[index].info)
+                  ),
                 );
               },
             );
@@ -598,7 +933,7 @@ class SecondRoute extends StatelessWidget {
 
     Widget animalFacts = new Container(
       child: FutureBuilder(
-        future: _getUsers(),
+        future: _getAnimalFacts(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.data == null) {
             return Container(
@@ -612,8 +947,10 @@ class SecondRoute extends StatelessWidget {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(snapshot.data[index]),
+                return Card(
+                  child: ListTile(
+                    title: Text(snapshot.data[index]),
+                  ),
                 );
               },
             );
@@ -643,6 +980,7 @@ class SecondRoute extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(this.animalName),
       ),
       body: new Scrollbar(
@@ -652,7 +990,7 @@ class SecondRoute extends StatelessWidget {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: Text(
-              'Animal Information', 
+              'Animal Information',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
@@ -946,7 +1284,7 @@ Future<void> main() async {
   runApp(
     MaterialApp(
       theme: new ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.cyan,
       ),
       /*
       home: TakePictureScreen(
