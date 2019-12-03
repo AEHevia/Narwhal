@@ -166,7 +166,7 @@ class SearchParams extends Component {
                 onChange={this.handleChange}
                 value={this.state.value}
                 className="form-control width100"
-                placeholder="Narwhal"
+                defaultValue="Narwhal"
               />
               <span className="input-group-btn">
                 <button
