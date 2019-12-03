@@ -41,6 +41,7 @@ class LoginManager extends Component {
                   (this.state.isLoginOpen ? "login" : "")
                 }
                 onClick={this.showLoginBox}
+                style={textStyle}
               >
                 Login
               </div>
@@ -51,6 +52,7 @@ class LoginManager extends Component {
                   (this.state.isRegisterOpen ? "register" : "")
                 }
                 onClick={this.showRegisterBox}
+                style={textStyle}
               >
                 Register
               </div>
@@ -68,5 +70,9 @@ class LoginManager extends Component {
     );
   }
 }
+
+const textStyle = {
+  fontSize: "17px"
+};
 
 export default LoginManager;

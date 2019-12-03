@@ -31,6 +31,7 @@ class Animal extends Component {
               favorited = !favorited;
               this.props.handleUnfavorite(this.props.name);
             }}
+            style={textStyle}
           >
             Unfavorite
           </Button>
@@ -42,6 +43,7 @@ class Animal extends Component {
               favorited = !favorited;
               this.props.handleFavorite(this.props.name);
             }}
+            style={textStyle}
           >
             Favorite
           </Button>
@@ -116,5 +118,9 @@ class Animal extends Component {
     );
   }
 }
+
+const textStyle = {
+  fontSize: "14px"
+};
 
 export default Animal;
